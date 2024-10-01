@@ -1,0 +1,35 @@
+.header {
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  font-size: 12px;
+  background-color: blue;
+}
+
+.header-title {
+  width: 15%;
+}
+.header .nav {
+  width: 50%;
+}
+
+.header .user-field {
+  width: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.header .nav .nav-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

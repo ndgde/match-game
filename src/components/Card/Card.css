@@ -1,0 +1,30 @@
+.card {
+  margin: 0px;
+  padding: 0;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.card-back {
+  width: 100%;
+  height: 100%;
+  background-color: #007bff;
+  background-image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fsquare-pattern&psig=AOvVaw1tAL3Y5jmQtvKDea5vlwig&ust=1727876643197000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMDYh6Co7YgDFQAAAAAdAAAAABAE';
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}

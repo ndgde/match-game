@@ -1,0 +1,14 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-gap: 10px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.grid-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
