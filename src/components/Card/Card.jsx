@@ -2,15 +2,19 @@
 import React from 'react';
 import './Card.css';
 import PropTypes from 'prop-types';
-import Button from '../Button/Button';
 
-const Card = ({ id, img, isFlipped = false, onClick }) => {
+const Card = ({ img, isFlipped = false }) => {
   return (
-    <Button>
-      <div className="card" onClick={() => onClick(id)}>
-        {isFlipped ? <img src={img} alt="the image is not loaded" /> : <div className="card-back">?</div>}
+    <div className={`card-container ${isFlipped ? 'flipped' : ''}`}>
+      <div className="card">
+        <div className="card-front">
+          <img src={img} alt="front" />
+        </div>
+        <div className="card-back">
+          <img src={process.env.PUBLIC_URL + '/card-imgs/card-back.jpg'} alt="back" />
+        </div>
       </div>
-    </Button>
+    </div>
   );
 };
 
@@ -20,5 +24,4 @@ Card.propTypes = {
   id: PropTypes.number,
   img: PropTypes.string,
   isFlipped: PropTypes.boll,
-  onClick: PropTypes.func,
 };

@@ -1,30 +1,53 @@
-.card {
-  margin: 0px;
+.card-container {
+  margin: 0;
   padding: 0;
+  perspective: 1000px; /* Перспектива для 3D флипа */
   width: 100px;
   height: 100px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s; /* Плавный переход при флипе */
   border: 1px solid #ccc;
   border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
 }
 
+.flipped .card {
+  transform: rotateY(180deg); /* Флип по оси Y */
+}
+
+.card-front,
 .card-back {
+  position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #007bff;
-  background-image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fsquare-pattern&psig=AOvVaw1tAL3Y5jmQtvKDea5vlwig&ust=1727876643197000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMDYh6Co7YgDFQAAAAAdAAAAABAE';
-  color: white;
+  backface-visibility: hidden; /* Скрытие задней стороны */
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
 }
 
-.card img {
+.card-front img,
+.card-back img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 5px;
+  object-fit: cover;
+  border-radius: 5px; /* Округление изображения по углам карточки */
+}
+
+.card-back {
+  background-color: #fff;
+}
+
+.card-front {
+  background-color: #333;
+  transform: rotateY(180deg); /* Поворот задней стороны */
 }
