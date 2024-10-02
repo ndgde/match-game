@@ -6,25 +6,50 @@ import Button from '../Button/Button';
 const Header = ({ user }) => {
   return (
     <header className="header">
-      <h2 className="header-title">Match game</h2>
+      <h2 className="header-title">
+        <Button className="title-btn">
+          <span className="first-section">MATCH</span>
+          <span className="second-section">MATCH</span>
+        </Button>
+      </h2>
       <nav className="nav">
         <ul className="nav-list">
-          <li className="nav-item" href="/play">
-            Play
-          </li>
           <li className="nav-item" href="/about">
-            About
+            <Button className="sign-btn">
+              <div className="title-container">
+                <span className="title-sign">?</span>
+              </div>
+            </Button>
+
+            <p className="title-text">About</p>
           </li>
           <li className="nav-item" href="/best-score">
-            Best Score
+            <Button className="sign-btn">
+              <div className="title-container">
+                <span className="title-sign">★</span>
+              </div>
+            </Button>
+
+            <p className="title-text">Best Score</p>
           </li>
           <li className="nav-item" href="/game-settings">
-            Game Settings
+            <Button className="sign-btn">
+              <div className="title-container">
+                <span className="title-sign">⚙️</span>
+              </div>
+            </Button>
+
+            <p className="title-text">Game Settings</p>
           </li>
         </ul>
       </nav>
       <div className="user-field">
-        <Button>{user}</Button>
+        {user.isAuthorized ? (
+          <Button class="start-game-btn">start game</Button>
+        ) : (
+          <Button className="sign-in-btn">sign in</Button>
+        )}
+        <Button className="user-btn">{user}</Button>
       </div>
     </header>
   );
