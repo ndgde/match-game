@@ -1,7 +1,10 @@
 .wrapper {
+  margin: 35px 20% 20px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
   border: 1px solid transparent;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: hsl(0, 0%, 95%);
 }
