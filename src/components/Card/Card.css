@@ -1,32 +1,37 @@
 .card-container {
   margin: 0;
   padding: 0;
-  perspective: 1000px; /* Перспектива для 3D флипа */
-  width: 100px;
-  height: 100px;
+  perspective: 1000px;
+  width: 10vw;
+  max-width: 140px;
+  height: 10vw;
+  max-height: 140px;
+  overflow: hidden;
+  border-radius: 5px;
 }
 
 .card {
+  margin: 0;
+  padding: 0;
   position: relative;
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 0.6s; /* Плавный переход при флипе */
+  transition: transform 0.6s;
   border: 1px solid #ccc;
-  border-radius: 5px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .flipped .card {
-  transform: rotateY(180deg); /* Флип по оси Y */
+  transform: rotateY(180deg);
 }
 
 .card-front,
 .card-back {
-  position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden; /* Скрытие задней стороны */
+  backface-visibility: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,20 +39,59 @@
 
 .card-front img,
 .card-back img {
+  margin: 0;
+  padding: 0;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 5px; /* Округление изображения по углам карточки */
-}
-
-.card-back {
-  background-color: #fff;
+  border-radius: 5px;
 }
 
 .card-front {
-  background-color: #333;
-  transform: rotateY(180deg); /* Поворот задней стороны */
+  transform: rotateY(180deg);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: white;
+}
+
+.green {
+  background-color: rgba(0, 128, 0, 0.5);
+}
+
+.red {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.green .checkmark {
+  background-color: rgb(0, 128, 0);
+}
+
+.red .checkmark {
+  background-color: rgba(255, 0, 0)
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5px;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 0.4em;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  border-radius: 50%;
 }

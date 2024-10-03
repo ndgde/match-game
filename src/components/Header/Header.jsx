@@ -52,11 +52,17 @@ const Header = ({ user }) => {
       </nav>
       <div className="user-field">
         {user.isAuthorized ? (
-          <Button className="start-game-btn">start game</Button>
+          <Button className="start-game-btn" onClick={() => {}}>
+            start game
+          </Button>
         ) : (
-          <Button className="sign-in-btn">sign in</Button>
+          <Button className="sign-in-btn" onClick={() => {}}>
+            sign in
+          </Button>
         )}
-        <Button className="user-btn">{user}</Button>
+        <Button className="user-btn" onClick={() => {}}>
+          {user}
+        </Button>
       </div>
     </header>
   );

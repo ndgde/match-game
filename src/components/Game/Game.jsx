@@ -1,7 +1,10 @@
+/* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 import './Game.css';
 import Grid from '../Grid/Grid';
 import Card from '../Card/Card';
+import { CardState } from '../Card/Card';
+import Timer from '../Timer/Timer';
 
 class Game extends Component {
   constructor(props) {
@@ -27,26 +30,26 @@ class Game extends Component {
   };
 
   render() {
-    const { score, isGameOver } = this.state;
-
     return (
       <div className="game-container">
+        <Timer initialTime={new Date()} />
         <h1>Игра</h1>
-        <div className="score">Очки: {score}</div>
-        {isGameOver ? (
-          <div className="game-over">
-            <h2>Игра окончена!</h2>
-            <button onClick={this.startGame}>Начать заново</button>
-          </div>
-        ) : (
-          <button onClick={this.increaseScore}>Увеличить очки</button>
-        )}
         <Grid
+          width={4}
+          height={3}
           cards={[
-            <Card key={1} id={1} isFlipped={true} img={process.env.PUBLIC_URL + '/card-imgs/img-1.png'} />,
-            <Card key={2} id={2} isFlipped={false} img={process.env.PUBLIC_URL + '/card-imgs/img-2.png'} />,
-            <Card key={3} id={3} isFlipped={false} img={process.env.PUBLIC_URL + '/card-imgs/img-3.png'} />,
-            <Card key={4} id={4} isFlipped={true} img={process.env.PUBLIC_URL + '/card-imgs/img-4.png'} />,
+            <Card id={0} isBlocked={false} state={CardState.STANDARD} />,
+            <Card id={1} isBlocked={false} state={CardState.CORRECT} />,
+            <Card id={2} isBlocked={false} state={CardState.INCORRECT} />,
+            <Card id={3} isBlocked={false} />,
+            <Card id={4} isBlocked={false} />,
+            <Card id={5} isBlocked={false} />,
+            <Card id={0} isBlocked={false} />,
+            <Card id={1} isBlocked={false} />,
+            <Card id={2} isBlocked={false} />,
+            <Card id={3} isBlocked={false} />,
+            <Card id={4} isBlocked={false} />,
+            <Card id={5} isBlocked={false} />,
           ]}></Grid>
       </div>
     );
