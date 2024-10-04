@@ -29,6 +29,7 @@ const Card = ({ id, callback, className, ...props }) => {
       setTimeout(() => {
         setIsBlocked(false);
         setIsFlipped(false);
+        setState(CardState.STANDARD);
       }, 500);
     }
   }, [state]);
@@ -83,7 +84,6 @@ export default Card;
 Card.propTypes = {
   id: PropTypes.number.isRequired,
   callback: PropTypes.func.isRequired,
-  state: PropTypes.string,
   className: PropTypes.string,
   props: PropTypes.object,
 };
