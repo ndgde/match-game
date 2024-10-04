@@ -1,26 +1,49 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Card.css';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 const CardState = Object.freeze({
-  STANDARD: "standard",
-  CORRECT: "correct",
-  INCORRECT: "incorrect",
+  STANDARD: 'standard',
+  CORRECT: 'correct',
+  INCORRECT: 'incorrect',
 });
 
 export { CardState };
 
-const Card = ({ id, state = CardState.STANDARD, isBlocked = true, className, ...props }) => {
+const Card = ({ id, callback, className, ...props }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [state, setState] = useState(Card.STANDARD);
 
   const flip = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  useEffect(() => {
+    if (state == CardState.CORRECT) {
+      setIsFlipped(true);
+      setIsBlocked(true);
+    } else if (state == CardState.INCORRECT) {
+      setTimeout(() => {
+        setIsBlocked(false);
+        setIsFlipped(false);
+      }, 500);
+    }
+  }, [state]);
+
+  const approve = (approval) => setState(approval ? CardState.CORRECT : CardState.INCORRECT);
+
+  const onClick = () => {
     if (!isBlocked) {
-      setIsFlipped(!isFlipped);
+      flip();
+      callback(id, approve);
     }
   };
+
   
+
   const getStatementBlock = (state) => {
     switch (state) {
       case CardState.CORRECT:
@@ -40,13 +63,12 @@ const Card = ({ id, state = CardState.STANDARD, isBlocked = true, className, ...
     }
   };
 
-
   return (
     <div className={`card-container ${isFlipped ? 'flipped' : ''} ${className}`} {...props}>
-      <div className="card" onClick={flip}>
+      <div className="card" onClick={onClick}>
         <div className="card-front">
           <img src={process.env.PUBLIC_URL + `/card-imgs/img-${id}.png`} alt="front" />
-          {getStatementBlock(state)}          
+          {getStatementBlock(state)}
         </div>
         <div className="card-back">
           <img src={process.env.PUBLIC_URL + '/card-imgs/card-back.jpg'} alt="back" />
@@ -59,10 +81,9 @@ const Card = ({ id, state = CardState.STANDARD, isBlocked = true, className, ...
 export default Card;
 
 Card.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
+  callback: PropTypes.func.isRequired,
   state: PropTypes.string,
-  isBlocked: PropTypes.bool,
-  img: PropTypes.string,
   className: PropTypes.string,
   props: PropTypes.object,
 };
