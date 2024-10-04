@@ -1,4 +1,5 @@
 .card-container {
+  user-select: none;
   margin: 0;
   padding: 0;
   perspective: 1000px;
@@ -39,6 +40,7 @@
 
 .card-front img,
 .card-back img {
+  pointer-events: none;
   margin: 0;
   padding: 0;
   position: absolute;
