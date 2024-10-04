@@ -82,11 +82,15 @@ class Game extends Component {
   render() {
     return (
       <div className="game-container">
-        <Timer callback={(timer) => this.setState({ timer: timer })} />
+        <Timer callback={(timer) => this.setState({ timer: timer })} onMilliseconds={true} />
         {this.state.isGameOver ? (
-          <Button onClick={this.startGame}>New Game</Button>
+          <Button className="game-btn" onClick={this.startGame}>
+            New Game
+          </Button>
         ) : (
-          <Button onClick={this.endGame}>Stop Game</Button>
+          <Button className="game-btn" onClick={this.endGame}>
+            Stop Game
+          </Button>
         )}
         <Grid
           // width={4}

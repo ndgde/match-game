@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Timer.css';
 
-const Timer = ({ callback, className = '', style = {} }) => {
+const Timer = ({ callback, onMilliseconds = false, className = '', style = {} }) => {
   const [startTime, setStartTime] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -13,7 +13,7 @@ const Timer = ({ callback, className = '', style = {} }) => {
     if (isRunning) {
       timerId = setInterval(() => {
         setElapsedTime(Date.now() - startTime);
-      }, 1000);
+      }, 9);
     }
 
     return () => clearInterval(timerId);
@@ -46,15 +46,17 @@ const Timer = ({ callback, className = '', style = {} }) => {
   const getTime = () => {
     let minutes = Math.floor((elapsedTime / 1000 / 60) % 60);
     let seconds = Math.floor((elapsedTime / 1000) % 60);
+    let milliseconds = elapsedTime % 1000;
 
     let mStr = minutes.toString().padStart(2, '0');
     let sStr = seconds.toString().padStart(2, '0');
+    let msStr = milliseconds.toString().padStart(3, '0');
 
-    return `${mStr}:${sStr}`;
+    return `${mStr}:${sStr}${onMilliseconds ? `:${msStr}` : ''}`;
   };
 
   return (
-    <div className={`timer ${className}`} style={style}>
+    <div className={`timer ${className} ${onMilliseconds ? 'timer-on-milliseconds' : ''}`} style={style}>
       {getTime()}
     </div>
   );
@@ -62,6 +64,7 @@ const Timer = ({ callback, className = '', style = {} }) => {
 
 Timer.propTypes = {
   callback: PropTypes.func.isRequired,
+  onMilliseconds: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
 };
