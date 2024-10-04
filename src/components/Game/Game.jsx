@@ -16,7 +16,7 @@ class Game extends Component {
       cards: [],
       prevId: null,
       prevCallback: null,
-      time: new Date(),
+      timer: {},
     };
   }
 
@@ -31,27 +31,33 @@ class Game extends Component {
   };
 
   startGame = () => {
+    /* почему-то при новой игре после первой генерации карточки не перегенерируются 
+    полностью тоесть нужно либо збрасывать состояния всех карт, либо заново их как-то перегенерировать */
     this.setState({
       score: 0,
+      prevId: null,
+      prevCallback: null,
       isGameOver: false,
       cards: this.generateCards(12),
     });
+
+    this.state.timer.resetTimer();
+    this.state.timer.startTimer();
   };
 
   endGame = () => {
-    this.setState({
-      score: 0,
-      isGameOver: true,
-      cards: [],
-      prevId: null,
-      prevCallback: null,
-    });
+    this.setState({ isGameOver: true });
+    this.state.timer.stopTimer();
   };
 
   increaseScore = () => {
     this.setState({ score: this.state.score + 2 }); /* two cards at a time */
 
-    if (this.state.score >= this.state.cards.length) {
+    console.log(`score: ${this.state.score}`);
+
+    if (this.state.score >= this.state.cards.length - 2) {
+      /* какой-то баг - при первом угадывании картинок не пребовляется двойка 
+      к счету, поэтому пока стоит заглушика в виде минус двойки */
       this.endGame();
     }
   };
@@ -60,12 +66,12 @@ class Game extends Component {
     if (this.state.prevId !== null) {
       if (id == this.state.prevId) {
         [callback, this.state.prevCallback].forEach((func) => func(true));
+        this.increaseScore();
       } else {
         [callback, this.state.prevCallback].forEach((func) => func(false));
       }
 
       this.setState({ prevId: null, prevCallback: null });
-      console.log(this.state.prevId, id);
     } else {
       this.setState({ prevId: id, prevCallback: callback });
     }
@@ -76,7 +82,7 @@ class Game extends Component {
   render() {
     return (
       <div className="game-container">
-        <Timer initialTime={this.state.time} />
+        <Timer callback={(timer) => this.setState({ timer: timer })} />
         {this.state.isGameOver ? (
           <Button onClick={this.startGame}>New Game</Button>
         ) : (
