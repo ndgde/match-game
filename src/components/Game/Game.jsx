@@ -12,10 +12,11 @@ class Game extends Component {
     super(props);
     this.state = {
       score: 0,
-      isGameOver: false,
+      isGameOver: true,
       cards: [],
       prevId: null,
       prevCallback: null,
+      time: new Date(),
     };
   }
 
@@ -38,12 +39,20 @@ class Game extends Component {
   };
 
   endGame = () => {
-    this.setState({ isGameOver: true });
+    this.setState({
+      score: 0,
+      isGameOver: true,
+      cards: [],
+      prevId: null,
+      prevCallback: null,
+    });
   };
 
   increaseScore = () => {
-    if (!this.state.isGameOver) {
-      this.setState((prevState) => ({ score: prevState.score + 1 }));
+    this.setState({ score: this.state.score + 2 }); /* two cards at a time */
+
+    if (this.state.score >= this.state.cards.length) {
+      this.endGame();
     }
   };
 
@@ -67,8 +76,12 @@ class Game extends Component {
   render() {
     return (
       <div className="game-container">
-        <Timer initialTime={new Date()} />
-        <Button onClick={this.startGame}>Start Game</Button>
+        <Timer initialTime={this.state.time} />
+        {this.state.isGameOver ? (
+          <Button onClick={this.startGame}>New Game</Button>
+        ) : (
+          <Button onClick={this.endGame}>Stop Game</Button>
+        )}
         <Grid
           // width={4}
           // height={3}
