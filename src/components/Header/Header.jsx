@@ -44,11 +44,17 @@ const Header = ({ user }) => {
   const getUserBlock = (user) => (
     <div className="user-field">
       {user.isAuthorized ? (
-        <Button className="start-game-btn">start game</Button>
+        <Button onClick={() => {}} className="start-game-btn">
+          start game
+        </Button>
       ) : (
-        <Button className="sign-in-btn">sign in</Button>
+        <Button onClick={() => {}} className="sign-in-btn">
+          sign in
+        </Button>
       )}
-      <Button className="user-btn">{user}</Button>
+      <Button onClick={() => {}} className="user-btn">
+        {user}
+      </Button>
     </div>
   );
 

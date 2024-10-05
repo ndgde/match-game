@@ -1,53 +1,102 @@
+/* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 import './Game.css';
 import Grid from '../Grid/Grid';
 import Card from '../Card/Card';
+// import { CardState } from '../Card/Card';
+import Timer from '../Timer/Timer';
+import Button from '../Button/Button';
 
 class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
       score: 0,
-      isGameOver: false,
+      isGameOver: true,
+      cards: [],
+      prevId: null,
+      prevCallback: null,
+      timer: {},
     };
   }
 
+  generateCards = (numOfCards) => {
+    const cards = Array.from({ length: Math.floor(numOfCards / 2) }, (_, i) => [i, i])
+      .flat() /* returns [0, 0, 1, 1, 2, 2, ...] */
+      .sort(() => Math.random() - 0.5); /* random arrangement of card ids */
+
+    console.log(cards);
+
+    return cards;
+  };
+
   startGame = () => {
-    this.setState({ score: 0, isGameOver: false });
+    /* почему-то при новой игре после первой генерации карточки не перегенерируются 
+    полностью то-есть нужно либо сбрасывать состояния всех карт, либо заново их как-то перегенерировать */
+    this.setState({
+      score: 0,
+      prevId: null,
+      prevCallback: null,
+      isGameOver: false,
+      cards: this.generateCards(12),
+    });
+
+    this.state.timer.resetTimer();
+    this.state.timer.startTimer();
   };
 
   endGame = () => {
     this.setState({ isGameOver: true });
+    this.state.timer.stopTimer();
   };
 
   increaseScore = () => {
-    if (!this.state.isGameOver) {
-      this.setState((prevState) => ({ score: prevState.score + 1 }));
+    this.setState({ score: this.state.score + 2 }); /* two cards at a time */
+
+    if (this.state.score >= this.state.cards.length - 2) {
+      /* какой-то баг - при первом угадывании картинок не прибавляется двойка 
+      к счету, поэтому пока стоит заглушка в виде минус двойки */
+      this.endGame();
     }
   };
 
-  render() {
-    const { score, isGameOver } = this.state;
+  cardClickHandler = (id, callback) => {
+    if (this.state.prevId !== null) {
+      if (id == this.state.prevId) {
+        [callback, this.state.prevCallback].forEach((func) => func(true));
+        this.increaseScore();
+      } else {
+        [callback, this.state.prevCallback].forEach((func) => func(false));
+      }
 
+      this.setState({ prevId: null, prevCallback: null });
+    } else {
+      this.setState({ prevId: id, prevCallback: callback });
+    }
+
+    this.forceUpdate();
+  };
+
+  render() {
     return (
       <div className="game-container">
-        <h1>Игра</h1>
-        <div className="score">Очки: {score}</div>
-        {isGameOver ? (
-          <div className="game-over">
-            <h2>Игра окончена!</h2>
-            <button onClick={this.startGame}>Начать заново</button>
-          </div>
+        <Timer callback={(timer) => this.setState({ timer: timer })} onMilliseconds={true} />
+        {this.state.isGameOver ? (
+          <Button className="game-btn" onClick={this.startGame}>
+            New Game
+          </Button>
         ) : (
-          <button onClick={this.increaseScore}>Увеличить очки</button>
+          <Button className="game-btn" onClick={this.endGame}>
+            Stop Game
+          </Button>
         )}
         <Grid
-          cards={[
-            <Card key={1} id={1} isFlipped={true} img={process.env.PUBLIC_URL + '/card-imgs/img-1.png'} />,
-            <Card key={2} id={2} isFlipped={false} img={process.env.PUBLIC_URL + '/card-imgs/img-2.png'} />,
-            <Card key={3} id={3} isFlipped={false} img={process.env.PUBLIC_URL + '/card-imgs/img-3.png'} />,
-            <Card key={4} id={4} isFlipped={true} img={process.env.PUBLIC_URL + '/card-imgs/img-4.png'} />,
-          ]}></Grid>
+          // width={4}
+          // height={3}
+          cards={this.state.cards.map((cardId) => (
+            <Card id={cardId} callback={this.cardClickHandler} />
+          ))}
+        />
       </div>
     );
   }

@@ -7,7 +7,7 @@ const UserIcon = ({ avatar, onClick, isAuthorized, className = '', style = {} })
     <div className={`user-icon ${className}`} style={style} onClick={onClick}>
       <img
         // eslint-disable-next-line prettier/prettier
-        src={isAuthorized ? avatar : (process.env.PUBLIC_URL + 'unauthenticated-user.png')}
+        src={isAuthorized ? avatar : process.env.PUBLIC_URL + 'unauthenticated-user.png'}
         alt="User Avatar"
         className="user-avatar"
       />
