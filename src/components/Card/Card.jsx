@@ -39,6 +39,7 @@ const Card = ({ id, callback, className, ...props }) => {
   const onClick = () => {
     if (!isBlocked) {
       flip();
+      setIsBlocked(true);
       callback(id, approve);
     }
   };
