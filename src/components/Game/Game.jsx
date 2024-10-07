@@ -6,6 +6,7 @@ import Card from '../Card/Card';
 // import { CardState } from '../Card/Card';
 import Timer from '../Timer/Timer';
 import Button from '../Button/Button';
+import { v4 as uuidv4 } from 'uuid';
 
 class Game extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Game extends Component {
       prevId: null,
       prevCallback: null,
       timer: {},
+      namespace: '',
     };
   }
 
@@ -31,14 +33,13 @@ class Game extends Component {
   };
 
   startGame = () => {
-    /* почему-то при новой игре после первой генерации карточки не перегенерируются 
-    полностью то-есть нужно либо сбрасывать состояния всех карт, либо заново их как-то перегенерировать */
     this.setState({
       score: 0,
       prevId: null,
       prevCallback: null,
       isGameOver: false,
       cards: this.generateCards(12),
+      namespace: uuidv4(),
     });
 
     this.state.timer.resetTimer();
@@ -94,8 +95,9 @@ class Game extends Component {
           // width={4}
           // height={3}
           cards={this.state.cards.map((cardId) => (
-            <Card id={cardId} callback={this.cardClickHandler} />
+            <Card id={cardId} callback={this.cardClickHandler} isGameActive={!this.state.isGameOver} />
           ))}
+          namespace={this.state.namespace}
         />
       </div>
     );

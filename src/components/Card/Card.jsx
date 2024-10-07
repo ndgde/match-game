@@ -12,7 +12,7 @@ const CardState = Object.freeze({
 
 export { CardState };
 
-const Card = ({ id, callback, className, ...props }) => {
+const Card = ({ id, callback, isGameActive, className, ...props }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [state, setState] = useState(Card.STANDARD);
@@ -37,7 +37,7 @@ const Card = ({ id, callback, className, ...props }) => {
   const approve = (approval) => setState(approval ? CardState.CORRECT : CardState.INCORRECT);
 
   const onClick = () => {
-    if (!isBlocked) {
+    if (isGameActive && !isBlocked) {
       flip();
       setIsBlocked(true);
       callback(id, approve);
@@ -85,6 +85,7 @@ export default Card;
 Card.propTypes = {
   id: PropTypes.number.isRequired,
   callback: PropTypes.func.isRequired,
+  isGameActive: PropTypes.bool.isRequired,
   className: PropTypes.string,
   props: PropTypes.object,
 };
