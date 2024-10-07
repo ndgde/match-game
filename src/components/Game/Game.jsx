@@ -12,7 +12,6 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: 0,
       isGameOver: true,
       cards: [],
       prevId: null,
@@ -20,6 +19,7 @@ class Game extends Component {
       timer: {},
       namespace: '',
     };
+    this.score = 0;
   }
 
   generateCards = (numOfCards) => {
@@ -34,13 +34,14 @@ class Game extends Component {
 
   startGame = () => {
     this.setState({
-      score: 0,
       prevId: null,
       prevCallback: null,
       isGameOver: false,
       cards: this.generateCards(12),
       namespace: uuidv4(),
     });
+
+    this.score = 0;
 
     this.state.timer.resetTimer();
     this.state.timer.startTimer();
@@ -52,11 +53,10 @@ class Game extends Component {
   };
 
   increaseScore = () => {
-    this.setState({ score: this.state.score + 2 }); /* two cards at a time */
+    this.score += 2; /* two cards at a time */
+    console.log(this.score);
 
-    if (this.state.score >= this.state.cards.length - 2) {
-      /* какой-то баг - при первом угадывании картинок не прибавляется двойка 
-      к счету, поэтому пока стоит заглушка в виде минус двойки */
+    if (this.score >= this.state.cards.length) {
       this.endGame();
     }
   };

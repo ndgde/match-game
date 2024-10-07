@@ -13,13 +13,17 @@ const CardState = Object.freeze({
 export { CardState };
 
 const Card = ({ id, callback, isGameActive, className, ...props }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(true);
   const [isBlocked, setIsBlocked] = useState(false);
   const [state, setState] = useState(Card.STANDARD);
 
   const flip = () => {
     setIsFlipped(!isFlipped);
   };
+
+  useEffect(() => {
+    setTimeout(flip, 700);
+  }, []);
 
   useEffect(() => {
     if (state == CardState.CORRECT) {
