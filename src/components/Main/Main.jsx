@@ -1,11 +1,11 @@
 import React from 'react';
-import './Main.css';
 import PropTypes from 'prop-types';
+// import styles from './Main.module.scss';
 import Wrapper from '../Wrapper/Wrapper';
 
 const Main = ({ children }) => {
   return (
-    <main>
+    <main className={`main`}>
       <Wrapper>{children}</Wrapper>
     </main>
   );

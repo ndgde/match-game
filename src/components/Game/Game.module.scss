@@ -1,4 +1,4 @@
-.game-container {
+.container {
   text-align: center;
   margin: 20px;
   display: flex;
@@ -11,11 +11,7 @@
   margin: 20px 0;
 }
 
-.game-over {
-  margin: 20px 0;
-}
-
-.custom-button.game-btn {
+.container .game_btn {
   margin: 5px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: bold;

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Wrapper.css';
+import styles from './Wrapper.module.scss';
 
 const Wrapper = ({ children, className = '' }) => {
-  return <div className={`wrapper ${className}`}>{children}</div>;
+  return <div className={`wrapper ${styles.container} ${className}`}>{children}</div>;
 };
 
 Wrapper.propTypes = {

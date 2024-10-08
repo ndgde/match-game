@@ -1,4 +1,4 @@
-.timer {
+.container {
   margin: 5px;
   user-select: none;
   width: 100px;
@@ -16,6 +16,6 @@
   font-weight: bold;
 }
 
-.timer.timer-on-milliseconds {
+.container.on_ms {
   width: 125px;
 }

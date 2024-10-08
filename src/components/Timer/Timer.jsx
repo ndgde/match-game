@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import './Timer.css';
+import styles from './Timer.module.scss';
 
 const Timer = ({ callback, onMilliseconds = false, className = '', style = {} }) => {
   const [startTime, setStartTime] = useState(null);
@@ -56,7 +56,7 @@ const Timer = ({ callback, onMilliseconds = false, className = '', style = {} })
   };
 
   return (
-    <div className={`timer ${className} ${onMilliseconds ? 'timer-on-milliseconds' : ''}`} style={style}>
+    <div className={`timer ${styles.container} ${className} ${onMilliseconds ? styles.on_ms : ''}`} style={style}>
       {getTime()}
     </div>
   );

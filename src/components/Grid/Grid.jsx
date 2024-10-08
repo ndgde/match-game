@@ -1,5 +1,5 @@
 import React from 'react';
-import './Grid.css';
+import styles from './Grid.module.scss';
 import PropTypes from 'prop-types';
 import Card from '../Card/Card';
 import { v5 as uuidv5 } from 'uuid';
@@ -11,9 +11,9 @@ const Grid = ({ width, height, cards, namespace }) => {
   };
 
   return (
-    <div className="grid" style={gridStyle}>
+    <div className={`grid ${styles.grid}`} style={gridStyle}>
       {cards.map((card, index) => (
-        <Card className="grid-item" {...card.props} key={`${uuidv5(card.props.id.toString(), namespace)}-${index}`} />
+        <Card className={styles.item} {...card.props} key={`${uuidv5(card.props.id.toString(), namespace)}-${index}`} />
       ))}
     </div>
   );

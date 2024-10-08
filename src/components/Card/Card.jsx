@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect } from 'react';
-import './Card.css';
+import styles from './Card.module.scss';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
@@ -48,36 +48,25 @@ const Card = ({ id, callback, isGameActive, className, ...props }) => {
     }
   };
 
-  
-
-  const getStatementBlock = (state) => {
-    switch (state) {
-      case CardState.CORRECT:
-        return (
-          <div className="overlay green">
-            <span className="checkmark">✔️</span>
-          </div>
-        );
-      case CardState.INCORRECT:
-        return (
-          <div className="overlay red">
-            <span className="checkmark">✖</span>
-          </div>
-        );
-      default:
-        return <></>;
-    }
-  };
-
   return (
-    <div className={`card-container ${isFlipped ? 'flipped' : ''} ${className}`} {...props}>
-      <div className="card" onClick={onClick}>
-        <div className="card-front">
-          <img src={process.env.PUBLIC_URL + `/card-imgs/img-${id}.png`} alt="front" />
-          {getStatementBlock(state)}
+    <div className={`card ${styles.container} ${isFlipped ? 'flipped' : ''} ${className}`} {...props}>
+      <div className={styles.card} onClick={onClick}>
+        
+        <div className={styles.front}>
+          <img className={styles.img} src={`${process.env.PUBLIC_URL}/card-imgs/img-${id}.png`} alt="front" />
+          {state === CardState.CORRECT && (
+            <div className={`${styles.overlay} ${styles.green}`}>
+              <span className={styles.checkmark}>✔️</span>
+            </div>
+          )}
+          {state === CardState.INCORRECT && (
+            <div className={`${styles.overlay} ${styles.red}`}>
+              <span className={styles.checkmark}>✖</span>
+            </div>
+          )}
         </div>
-        <div className="card-back">
-          <img src={process.env.PUBLIC_URL + '/card-imgs/card-back.jpg'} alt="back" />
+        <div className={styles.back}>
+          <img className={styles.img} src={`${process.env.PUBLIC_URL}/card-imgs/card-back.jpg`} alt="back" />
         </div>
       </div>
     </div>

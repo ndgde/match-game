@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Player.css';
+import styles from './Player.module.scss';
 
 const Player = ({ name, score, rank, avatar, className = '', style = {} }) => {
   return (
-    <div className={`player ${className}`} style={style}>
-      <img src={avatar} alt={`${name}'s avatar`} className="player-avatar" />
-      <div className="player-info">
-        <h3 className="player-name">{name}</h3>
-        <p className="player-score">Score: {score}</p>
-        <p className="player-rank">Rank: {rank}</p>
+    <div className={`player ${styles.container} ${className}`} style={style}>
+      <img className={styles.avatar} src={avatar} alt={`${name}'s avatar`} />
+      <div className={styles.info}>
+        <h3 className={styles.name}>{name}</h3>
+        <p className={styles.score}>Score: {score}</p>
+        <p className={styles.rank}>Rank: {rank}</p>
       </div>
     </div>
   );

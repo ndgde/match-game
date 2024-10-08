@@ -1,11 +1,11 @@
 import React from 'react';
-import './Layout.css';
-import Main from '../Main/Main';
 import PropTypes from 'prop-types';
+import styles from './Layout.module.scss';
+import Main from '../Main/Main';
 
 export default function Layout({ header, content }) {
   return (
-    <div className="layout">
+    <div className={styles.layout}>
       {header}
       <Main>{content}</Main>
     </div>

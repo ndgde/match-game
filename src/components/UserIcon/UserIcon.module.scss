@@ -1,4 +1,4 @@
-.user-icon {
+.icon {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -9,13 +9,13 @@
   justify-content: center;
   cursor: pointer;
   transition: border-color 0.3s;
+
+  &:hover {
+    border-color: #007bff;
+  }
 }
 
-.user-icon:hover {
-  border-color: #007bff;
-}
-
-.user-avatar {
+.avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;

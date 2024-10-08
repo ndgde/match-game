@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './RegisterForm.css';
+import styles from './RegisterForm.module.scss';
 
-const RegisterForm = ({ onSubmit, className = '', style = {} }) => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+const InputField = ({ id, label, type, value, onChange }) => (
+  <div className={styles.group}>
+    <label className={styles.label} htmlFor={id}>
+      {label}
+    </label>
+    <input className={styles.input} type={type} id={id} name={id} value={value} onChange={onChange} required />
+  </div>
+);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+InputField.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+const RegisterForm = ({ onSubmit, className, style }) => {
+  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+
+  const handleChange = ({ target: { name, value } }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
@@ -20,27 +32,19 @@ const RegisterForm = ({ onSubmit, className = '', style = {} }) => {
   };
 
   return (
-    <form className={`register-form ${className}`} style={style} onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="username">Имя пользователя</label>
-        <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} required />
-      </div>
-      <div className="form-group">
-        <label htmlFor="email">Электронная почта</label>
-        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Пароль</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit">Зарегистрироваться</button>
+    <form className={`${styles.form} ${className || ''}`} style={style || {}} onSubmit={handleSubmit}>
+      <InputField
+        id="username"
+        label="Имя пользователя"
+        type="text"
+        value={formData.username}
+        onChange={handleChange}
+      />
+      <InputField id="email" label="Электронная почта" type="email" value={formData.email} onChange={handleChange} />
+      <InputField id="password" label="Пароль" type="password" value={formData.password} onChange={handleChange} />
+      <button className={styles.btn} type="submit">
+        Зарегистрироваться
+      </button>
     </form>
   );
 };

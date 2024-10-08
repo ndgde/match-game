@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
-import './Game.css';
+import styles from './Game.module.scss';
 import Grid from '../Grid/Grid';
 import Card from '../Card/Card';
-// import { CardState } from '../Card/Card';
 import Timer from '../Timer/Timer';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
@@ -80,14 +79,14 @@ class Game extends Component {
 
   render() {
     return (
-      <div className="game-container">
+      <div className={`game ${styles.container}`}>
         <Timer callback={(timer) => this.setState({ timer: timer })} onMilliseconds={true} />
         {this.state.isGameOver ? (
-          <Button className="game-btn" onClick={this.startGame}>
+          <Button className={styles.game_btn} onClick={this.startGame}>
             New Game
           </Button>
         ) : (
-          <Button className="game-btn" onClick={this.endGame}>
+          <Button className={styles.game_btn} onClick={this.endGame}>
             Stop Game
           </Button>
         )}

@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './UserIcon.css';
+import styles from './UserIcon.module.scss';
 
 const UserIcon = ({ avatar, onClick, isAuthorized, className = '', style = {} }) => {
   return (
-    <div className={`user-icon ${className}`} style={style} onClick={onClick}>
+    <div className={`${styles.icon} ${className}`} style={style} onClick={onClick}>
       <img
-        // eslint-disable-next-line prettier/prettier
-        src={isAuthorized ? avatar : process.env.PUBLIC_URL + 'unauthenticated-user.png'}
+        className={styles.avatar}
+        src={isAuthorized ? avatar : `${process.env.PUBLIC_URL}/unauthenticated-user.png`}
         alt="User Avatar"
-        className="user-avatar"
       />
     </div>
   );
