@@ -22,6 +22,8 @@ const Game = () => {
   const [score, setScore] = useState(0);
   const [numOfPairs, setNumOfPairs] = useState(0);
   const [numOfErrors, setNumOfErrors] = useState(0);
+  const [numOfSeries, setNumOfSeries] = useState(0);
+  const [prevGuessed, setPrevGuessed] = useState(false);
 
   const genCardIndices = (numOfCards) =>
     Array.from({ length: Math.floor(numOfCards / 2) }, (_, i) => [i, i])
@@ -63,6 +65,7 @@ const Game = () => {
 
   useEffect(() => {
     if (numOfPairs >= cards.length) {
+      console.log(numOfPairs);
       gameWon();
     }
   }, [numOfPairs]);
@@ -74,7 +77,9 @@ const Game = () => {
   // const getCardIndex = (id) => getCard(id).index;
 
   const calcScore = () => {
-    const newScore = numOfPairs * 100 + Math.floor(timerI.getEasternTime() / 1000) - numOfErrors * 5;
+    const newScore = numOfPairs * 100 + Math.floor(timerI.getEasternTime() / 1000) - numOfErrors * 5 + numOfSeries * 50;
+    /* почему-то если в качестве делителя времени использовать не 
+    степень десяти то происходит ошибка с подсчетом угаданных пар */
     setScore(newScore);
   };
 
@@ -96,6 +101,12 @@ const Game = () => {
           updatedCards[prevId].state = CardState.CORRECT;
 
           setNumOfPairs((prev) => prev + 2);
+          if (prevGuessed) {
+            setNumOfSeries((prev) => prev + 1);
+            setPrevGuessed(false);
+          } else {
+            setPrevGuessed(true);
+          }
 
           updatedCards[id].isBlocked = false;
           updatedCards[prevId].isBlocked = false;
@@ -111,6 +122,7 @@ const Game = () => {
           }, 1000);
 
           setNumOfErrors((prev) => prev + 1);
+          setPrevGuessed(false);
 
           updatedCards[id].state = CardState.INCORRECT;
           updatedCards[prevId].state = CardState.INCORRECT;
