@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './Card.module.scss';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
 const CardState = Object.freeze({
   STANDARD: 'standard',
@@ -12,61 +11,41 @@ const CardState = Object.freeze({
 
 export { CardState };
 
-const Card = ({ id, callback, isGameActive, className, ...props }) => {
-  const [isFlipped, setIsFlipped] = useState(true);
-  const [isBlocked, setIsBlocked] = useState(false);
-  const [state, setState] = useState(Card.STANDARD);
-
-  const flip = () => {
-    setIsFlipped(!isFlipped);
-  };
-
-  useEffect(() => {
-    setTimeout(flip, 700);
-  }, []);
-
-  useEffect(() => {
-    if (state == CardState.CORRECT) {
-      setIsFlipped(true);
-      setIsBlocked(true);
-    } else if (state == CardState.INCORRECT) {
-      setTimeout(() => {
-        setIsBlocked(false);
-        setIsFlipped(false);
-        setState(CardState.STANDARD);
-      }, 500);
-    }
-  }, [state]);
-
-  const approve = (approval) => setState(approval ? CardState.CORRECT : CardState.INCORRECT);
-
-  const onClick = () => {
-    if (isGameActive && !isBlocked) {
-      flip();
-      setIsBlocked(true);
-      callback(id, approve);
-    }
-  };
-
+const Card = ({ id, index, state, isFlipped, onClick, className, ...props }) => {
   return (
-    <div className={`card ${styles.container} ${isFlipped ? 'flipped' : ''} ${className}`} {...props}>
-      <div className={styles.card} onClick={onClick}>
-        
-        <div className={styles.front}>
-          <img className={styles.img} src={`${process.env.PUBLIC_URL}/card-imgs/img-${id}.png`} alt="front" />
+    <div
+      className={`${styles.container} ${isFlipped ? styles.flipped : ''} ${className}`}
+      onClick={() => onClick(id)}
+      {...props}
+    >
+      <div className={styles.card}>
+        <div className={styles.card__front}>
+          <img
+            className={styles.card__front__img}
+            src={`${process.env.PUBLIC_URL}/card-imgs/img-${index}.png`}
+            alt="front"
+          />
           {state === CardState.CORRECT && (
-            <div className={`${styles.overlay} ${styles.green}`}>
-              <span className={styles.checkmark}>✔️</span>
+            <div className={`${styles.card__front__overlay} ${styles.green}`}>
+              <div className={styles.card__front__overlay__checkmark}>
+                <span>✔️</span>
+              </div>
             </div>
           )}
           {state === CardState.INCORRECT && (
-            <div className={`${styles.overlay} ${styles.red}`}>
-              <span className={styles.checkmark}>✖</span>
+            <div className={`${styles.card__front__overlay} ${styles.red}`}>
+              <div className={styles.card__front__overlay__checkmark}>
+                <span>✖</span>
+              </div>
             </div>
           )}
         </div>
-        <div className={styles.back}>
-          <img className={styles.img} src={`${process.env.PUBLIC_URL}/card-imgs/card-back.jpg`} alt="back" />
+        <div className={styles.card__back}>
+          <img
+            className={styles.card__back__img}
+            src={`${process.env.PUBLIC_URL}/card-imgs/card-back.jpg`}
+            alt="back"
+          />
         </div>
       </div>
     </div>
@@ -77,8 +56,42 @@ export default Card;
 
 Card.propTypes = {
   id: PropTypes.number.isRequired,
-  callback: PropTypes.func.isRequired,
-  isGameActive: PropTypes.bool.isRequired,
+  index: PropTypes.number.isRequired,
+  state: PropTypes.string.isRequired,
+  isFlipped: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   props: PropTypes.object,
 };
+
+
+  // const flip = () => {
+  //   setIsFlipped(!isFlipped);
+  // };
+
+  // useEffect(() => {
+  //   setTimeout(flip, 700);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (state == CardState.CORRECT) {
+  //     setIsFlipped(true);
+  //     setIsBlocked(true);
+  //   } else if (state == CardState.INCORRECT) {
+  //     setTimeout(() => {
+  //       setIsBlocked(false);
+  //       setIsFlipped(false);
+  //       setState(CardState.STANDARD);
+  //     }, 500);
+  //   }
+  // }, [state]);
+
+  // const approve = (approval) => setState(approval ? CardState.CORRECT : CardState.INCORRECT);
+
+  // const onClick = () => {
+  //   if (isGameActive && !isBlocked) {
+  //     flip();
+  //     setIsBlocked(true);
+  //     callback(id, approve);
+  //   }
+  // };

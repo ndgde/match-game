@@ -12,6 +12,87 @@
   opacity: 0;
   transform: scale(0);
   animation: expand 0.4s forwards;
+
+  &.flipped {
+    .card {
+      transform: rotateY(180deg);
+    }
+  }
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &__front,
+  &__back {
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+
+    &__img {
+      pointer-events: none;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    &__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      color: white;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in-out forwards;
+
+      &__checkmark {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 5px;
+        width: 1.5em;
+        height: 1.5em;
+        font-size: 0.4em;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: bold;
+        border-radius: 50%;
+      }
+
+      &.green { /* поправить работу */
+        background-color: rgba(0, 128, 0, 0.5);
+      }
+
+      &.red {
+        background-color: rgba(255, 0, 0, 0.5);
+      }
+    }
+  }
+
+  &__front {
+    transform: rotateY(180deg);
+  }
 }
 
 @keyframes expand {
@@ -25,99 +106,7 @@
   }
 }
 
-.card {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.5s;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.flipped {
-  transform: rotateY(180deg);
-}
-
-.front,
-.back {
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.front {
-  transform: rotateY(180deg);
-}
-
-.img {
-  pointer-events: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  color: white;
-  opacity: 0;
-  animation: fadeIn 0.5s ease-in-out forwards;
-}
-
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 5px;
-  width: 1.5em;
-  height: 1.5em;
-  font-size: 0.4em;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: bold;
-  border-radius: 50%;
-}
-
-.green {
-  background-color: rgba(0, 128, 0, 0.5);
-}
-
-.red {
-  background-color: rgba(255, 0, 0, 0.5);
-}
-
-.green .checkmark {
-  background-color: rgb(0, 128, 0);
-}
-
-.red .checkmark {
-  background-color: rgba(255, 0, 0);
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
