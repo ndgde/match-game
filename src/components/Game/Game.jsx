@@ -78,8 +78,6 @@ const Game = () => {
 
   const calcScore = () => {
     const newScore = numOfPairs * 100 + Math.floor(timerI.getEasternTime() / 1000) - numOfErrors * 5 + numOfSeries * 50;
-    /* почему-то если в качестве делителя времени использовать не 
-    степень десяти то происходит ошибка с подсчетом угаданных пар */
     setScore(newScore);
   };
 
@@ -111,6 +109,7 @@ const Game = () => {
           updatedCards[id].isBlocked = false;
           updatedCards[prevId].isBlocked = false;
         } else {
+          setCards((prev) => prev.map((card) => ({ ...card, isBlocked: true }))); /* all card block */
           setTimeout(() => {
             setCards((newCards) =>
               newCards.map((card, idx) =>
@@ -119,7 +118,9 @@ const Game = () => {
                   : card
               )
             );
-          }, 1000);
+
+            setCards((prev) => prev.map((card) => ({ ...card, isBlocked: false }))); /* all card unblock */
+          }, 500);
 
           setNumOfErrors((prev) => prev + 1);
           setPrevGuessed(false);
