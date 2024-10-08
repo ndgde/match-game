@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Timer.module.scss';
 
-const Timer = ({ callback, onMilliseconds = false, className = '', style = {} }) => {
+const Timer = ({ timeAmount, callback, endTrigger, onMilliseconds = false, className = '', style = {} }) => {
   const [startTime, setStartTime] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -13,6 +13,10 @@ const Timer = ({ callback, onMilliseconds = false, className = '', style = {} })
     if (isRunning) {
       timerId = setInterval(() => {
         setElapsedTime(Date.now() - startTime);
+
+        if (elapsedTime >= timeAmount) {
+          endTrigger();
+        }
       }, 9);
     }
 
@@ -33,20 +37,26 @@ const Timer = ({ callback, onMilliseconds = false, className = '', style = {} })
     setElapsedTime(0);
   };
 
+  const getElapsedTime = () => elapsedTime;
+  const getEasternTime = () => timeAmount - elapsedTime;
+
   useEffect(() => {
     if (callback) {
       callback({
         startTimer: startTimer,
         stopTimer: stopTimer,
         resetTimer: resetTimer,
+        getEasternTime: getEasternTime,
+        getElapsedTime: getElapsedTime,
       });
     }
   }, []);
 
   const getTime = () => {
-    let minutes = Math.floor((elapsedTime / 1000 / 60) % 60);
-    let seconds = Math.floor((elapsedTime / 1000) % 60);
-    let milliseconds = elapsedTime % 1000;
+    let easternTime = timeAmount - elapsedTime;
+    let minutes = Math.floor((easternTime / 1000 / 60) % 60);
+    let seconds = Math.floor((easternTime / 1000) % 60);
+    let milliseconds = easternTime % 1000;
 
     let mStr = minutes.toString().padStart(2, '0');
     let sStr = seconds.toString().padStart(2, '0');
@@ -63,7 +73,9 @@ const Timer = ({ callback, onMilliseconds = false, className = '', style = {} })
 };
 
 Timer.propTypes = {
+  timeAmount: PropTypes.number.isRequired,
   callback: PropTypes.func.isRequired,
+  endTrigger: PropTypes.func.isRequired,
   onMilliseconds: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
