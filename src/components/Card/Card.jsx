@@ -27,14 +27,14 @@ const Card = ({ id, index, state, isFlipped, onClick, className, ...props }) => 
           />
           {state === CardState.CORRECT && (
             <div className={`${styles.card__front__overlay} ${styles.green}`}>
-              <div className={styles.card__front__overlay__checkmark}>
+              <div className={`${styles.card__front__overlay__checkmark} ${styles.green}`}>
                 <span>✔️</span>
               </div>
             </div>
           )}
           {state === CardState.INCORRECT && (
             <div className={`${styles.card__front__overlay} ${styles.red}`}>
-              <div className={styles.card__front__overlay__checkmark}>
+              <div className={`${styles.card__front__overlay__checkmark} ${styles.red}`}>
                 <span>✖</span>
               </div>
             </div>

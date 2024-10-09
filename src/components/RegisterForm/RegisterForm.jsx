@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './RegisterForm.module.scss';
+import UserIcon from '../UserIcon/UserIcon';
+import Button from '../Button/Button';
 
 const InputField = ({ id, label, type, value, onChange }) => (
   <div className={styles.group}>
@@ -19,8 +21,19 @@ InputField.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-const RegisterForm = ({ onSubmit, className, style }) => {
+const RegisterForm = ({ onSubmit, onCancel, className, style }) => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+
+  useEffect(() => {
+    const savedData = localStorage.getItem('registerFormData');
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('registerFormData', JSON.stringify(formData));
+  }, [formData]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -28,29 +41,48 @@ const RegisterForm = ({ onSubmit, className, style }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    localStorage.removeItem('registerFormData');
+    onSubmit();
   };
 
   return (
-    <form className={`${styles.form} ${className || ''}`} style={style || {}} onSubmit={handleSubmit}>
-      <InputField
-        id="username"
-        label="Имя пользователя"
-        type="text"
-        value={formData.username}
-        onChange={handleChange}
-      />
-      <InputField id="email" label="Электронная почта" type="email" value={formData.email} onChange={handleChange} />
-      <InputField id="password" label="Пароль" type="password" value={formData.password} onChange={handleChange} />
-      <button className={styles.btn} type="submit">
-        Зарегистрироваться
-      </button>
-    </form>
+    <div className={styles.overlay}>
+      <form className={`${styles.form} ${className || ''}`} style={style || {}} onSubmit={handleSubmit}>
+        <header className={styles.header}>
+          <h2 className={styles.title}>Register new Player</h2>
+        </header>
+        <main className={styles.main}>
+          <div className={styles.input_field}>
+            <InputField id="username" label="username" type="text" value={formData.username} onChange={handleChange} />
+            <InputField id="email" label="Email" type="email" value={formData.email} onChange={handleChange} />
+            <InputField
+              id="password"
+              label="Password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+          <div className={styles.user_field}>
+            <UserIcon className={styles.user_icon} onClick={() => {}} />
+          </div>
+        </main>
+        <footer className={styles.footer}>
+          <Button className={styles.add_user_btn} onClick={onSubmit} type="submit">
+            add user
+          </Button>
+          <Button className={styles.cancel_btn} onClick={onCancel}>
+            cancel
+          </Button>
+        </footer>
+      </form>
+    </div>
   );
 };
 
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   className: PropTypes.string,
   style: PropTypes.object,
 };

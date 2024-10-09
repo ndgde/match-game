@@ -53,17 +53,18 @@ const Game = () => {
       setPrevId(null);
       setNamespace(uuidv4());
       setScore(0);
+      setNumOfPairs(0);
+      setNumOfErrors(0);
+      setNumOfSeries(0);
+      setPrevGuessed(false);
     } else {
       setCards((prevCards) => prevCards.map((card) => ({ ...card, isBlocked: true })));
       timerI.stopTimer();
     }
   }, [isGameOver]);
 
-  // useEffect(() => {
-  //   console.log(cards);
-  // }, [cards]);
-
   useEffect(() => {
+    console.log(numOfPairs);
     if (numOfPairs >= cards.length) {
       console.log(numOfPairs);
       gameWon();
@@ -109,7 +110,7 @@ const Game = () => {
           updatedCards[id].isBlocked = false;
           updatedCards[prevId].isBlocked = false;
         } else {
-          setCards((prev) => prev.map((card) => ({ ...card, isBlocked: true }))); /* all card block */
+          // setCards((prev) => prev.map((card) => ({ ...card, isBlocked: true }))); /* all card block */
           setTimeout(() => {
             setCards((newCards) =>
               newCards.map((card, idx) =>
@@ -119,7 +120,7 @@ const Game = () => {
               )
             );
 
-            setCards((prev) => prev.map((card) => ({ ...card, isBlocked: false }))); /* all card unblock */
+            // setCards((prev) => prev.map((card) => ({ ...card, isBlocked: false }))); /* all card unblock */
           }, 500);
 
           setNumOfErrors((prev) => prev + 1);

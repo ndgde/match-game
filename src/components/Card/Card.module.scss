@@ -78,6 +78,14 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-weight: bold;
         border-radius: 50%;
+
+        &.green {
+          background-color: rgb(0, 128, 0);
+        }
+
+        &.red {
+          background-color: rgb(255, 0, 0);
+        }
       }
 
       &.green { /* поправить работу */
