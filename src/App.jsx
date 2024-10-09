@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import About from './pages/About';
-import BestScores from './pages/BestScores';
-import GameSettings from './pages/GameSettings';
+import Home from './pages/Home/Home';
+import About from './pages/About/About';
+import BestScores from './pages/BestScores/BestScores';
+import GameSettings from './pages/GameSettings/GameSettings';
 
 const App = () => {
   return (

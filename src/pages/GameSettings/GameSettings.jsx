@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../components/Header/Header';
-import List from '../components/List/List';
-import Layout from '../components/Layout/Layout';
+import Header from '../../components/Header/Header';
+import List from '../../components/List/List';
+import Layout from '../../components/Layout/Layout';
 
 const GameSettings = () => {
   const settings = [

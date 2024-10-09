@@ -7,7 +7,7 @@ const List = ({ items, renderItem, className = '', style = {} }) => {
     <ul className={`${styles.list} ${className}`} style={style}>
       {items.map((item, index) => (
         <li className={styles.item} key={index}>
-          {renderItem(item)}
+          {renderItem(item, index)}
         </li>
       ))}
     </ul>

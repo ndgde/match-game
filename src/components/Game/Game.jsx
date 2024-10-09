@@ -168,8 +168,8 @@ const Game = () => {
       )}
       <p>{score}</p>
       <Grid
-        // width={4}
-        // height={3}
+        width={4}
+        height={3}
         cards={cards.map(({ id, index, isFlipped, state }) => (
           <Card key={id} id={id} index={index} isFlipped={isFlipped} state={state} onClick={() => clickHandler(id)} />
         ))}

@@ -63,35 +63,3 @@ Card.propTypes = {
   className: PropTypes.string,
   props: PropTypes.object,
 };
-
-
-  // const flip = () => {
-  //   setIsFlipped(!isFlipped);
-  // };
-
-  // useEffect(() => {
-  //   setTimeout(flip, 700);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (state == CardState.CORRECT) {
-  //     setIsFlipped(true);
-  //     setIsBlocked(true);
-  //   } else if (state == CardState.INCORRECT) {
-  //     setTimeout(() => {
-  //       setIsBlocked(false);
-  //       setIsFlipped(false);
-  //       setState(CardState.STANDARD);
-  //     }, 500);
-  //   }
-  // }, [state]);
-
-  // const approve = (approval) => setState(approval ? CardState.CORRECT : CardState.INCORRECT);
-
-  // const onClick = () => {
-  //   if (isGameActive && !isBlocked) {
-  //     flip();
-  //     setIsBlocked(true);
-  //     callback(id, approve);
-  //   }
-  // };
