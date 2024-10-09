@@ -6,6 +6,7 @@ import Card, { CardState } from '../Card/Card';
 import Timer from '../Timer/Timer';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
+import WonWindow from './WonWindow/WonWindow';
 
 const Game = () => {
   const [isGameOver, setIsGameOver] = useState(true);
@@ -17,6 +18,8 @@ const Game = () => {
     resetTimer: () => {},
     getElapsedTime: () => {},
     getEasternTime: () => {},
+    getElapsedTimeRender: () => {},
+    getEasternTimeRender: () => {},
   });
   const [namespace, setNamespace] = useState(null);
   const [score, setScore] = useState(0);
@@ -24,6 +27,7 @@ const Game = () => {
   const [numOfErrors, setNumOfErrors] = useState(0);
   const [numOfSeries, setNumOfSeries] = useState(0);
   const [prevGuessed, setPrevGuessed] = useState(false);
+  const [showWonWindow, setShowWonWindow] = useState(false);
 
   const genCardIndices = (numOfCards) =>
     Array.from({ length: Math.floor(numOfCards / 2) }, (_, i) => [i, i])
@@ -43,10 +47,10 @@ const Game = () => {
     if (!isGameOver) {
       setCards(genCards(12));
 
-      timerI.resetTimer();
       setCards((prev) => prev.map((card) => ({ ...card, isFlipped: true, isBlocked: true })));
       setTimeout(() => {
         setCards((prev) => prev.map((card) => ({ ...card, isFlipped: false, isBlocked: false })));
+        timerI.resetTimer();
         timerI.startTimer();
       }, 500);
 
@@ -57,6 +61,7 @@ const Game = () => {
       setNumOfErrors(0);
       setNumOfSeries(0);
       setPrevGuessed(false);
+      setShowWonWindow(false);
     } else {
       setCards((prevCards) => prevCards.map((card) => ({ ...card, isBlocked: true })));
       timerI.stopTimer();
@@ -65,15 +70,19 @@ const Game = () => {
 
   useEffect(() => {
     console.log(numOfPairs);
-    if (numOfPairs >= cards.length) {
-      console.log(numOfPairs);
+    console.log(timerI.getElapsedTime(), timerI.getEasternTime());
+    if (numOfPairs >= cards.length && cards.length !== 0) {
       gameWon();
     }
   }, [numOfPairs]);
 
   const startGame = () => setIsGameOver(false);
   const endGame = () => setIsGameOver(true);
-  const gameWon = () => endGame();
+  const gameWon = () => {
+    console.log('won');
+    setShowWonWindow(true);
+    endGame();
+  };
   // const getCard = (id) => cards[id];
   // const getCardIndex = (id) => getCard(id).index;
 
@@ -99,7 +108,7 @@ const Game = () => {
           updatedCards[id].state = CardState.CORRECT;
           updatedCards[prevId].state = CardState.CORRECT;
 
-          setNumOfPairs((prev) => prev + 2);
+          setNumOfPairs((prev) => prev + 1);
           if (prevGuessed) {
             setNumOfSeries((prev) => prev + 1);
             setPrevGuessed(false);
@@ -146,7 +155,7 @@ const Game = () => {
         callback={(timerI) => setTimerI(timerI)}
         timeAmount={5 * 60 * 1000}
         endTrigger={endGame}
-        onMilliseconds={true}
+        // onMilliseconds={true}
       />
       {isGameOver ? (
         <Button className={styles.game_btn} onClick={startGame}>
@@ -166,6 +175,13 @@ const Game = () => {
         ))}
         namespace={namespace}
       />
+      {showWonWindow && (
+        <WonWindow
+          elapsedTime={timerI.getElapsedTimeRender()}
+          score={score}
+          onConfirm={() => setShowWonWindow(false)}
+        />
+      )}
     </div>
   );
 };

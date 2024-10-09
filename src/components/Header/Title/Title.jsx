@@ -16,8 +16,8 @@ const Title = () => {
   return (
     <h2 className={styles.title}>
       <Button className={styles.title_btn} onClick={() => setRedirectTo('/')}>
-        <span className={styles.first_section}>MATCH</span>
-        <span className={styles.second_section}>MATCH</span>
+        <span className={styles.first_section}>match</span>
+        <span className={styles.second_section}>match</span>
       </Button>
     </h2>
   );

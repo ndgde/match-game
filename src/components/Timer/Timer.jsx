@@ -11,21 +11,24 @@ const Timer = ({ timeAmount, callback, endTrigger, onMilliseconds = false, class
     let timerId;
 
     if (isRunning) {
-      timerId = setInterval(() => {
-        setElapsedTime(Date.now() - startTime);
+      timerId = setInterval(
+        () => {
+          setElapsedTime(Date.now() - startTime);
 
-        if (elapsedTime >= timeAmount) {
-          endTrigger();
-        }
-      }, 9);
+          if (elapsedTime >= timeAmount) {
+            endTrigger();
+          }
+        },
+        onMilliseconds ? 9 : 900
+      );
     }
 
     return () => clearInterval(timerId);
   }, [isRunning, startTime]);
 
   const startTimer = () => {
-    setStartTime(Date.now() - elapsedTime);
     setIsRunning(true);
+    setStartTime(Date.now());
   };
 
   const stopTimer = () => {
@@ -40,23 +43,10 @@ const Timer = ({ timeAmount, callback, endTrigger, onMilliseconds = false, class
   const getElapsedTime = () => elapsedTime;
   const getEasternTime = () => timeAmount - elapsedTime;
 
-  useEffect(() => {
-    if (callback) {
-      callback({
-        startTimer: startTimer,
-        stopTimer: stopTimer,
-        resetTimer: resetTimer,
-        getEasternTime: getEasternTime,
-        getElapsedTime: getElapsedTime,
-      });
-    }
-  }, []);
-
-  const getTime = () => {
-    let easternTime = timeAmount - elapsedTime;
-    let minutes = Math.floor((easternTime / 1000 / 60) % 60);
-    let seconds = Math.floor((easternTime / 1000) % 60);
-    let milliseconds = easternTime % 1000;
+  const renderTime = (time) => {
+    let minutes = Math.floor((time / 1000 / 60) % 60);
+    let seconds = Math.floor((time / 1000) % 60);
+    let milliseconds = time % 1000;
 
     let mStr = minutes.toString().padStart(2, '0');
     let sStr = seconds.toString().padStart(2, '0');
@@ -65,9 +55,26 @@ const Timer = ({ timeAmount, callback, endTrigger, onMilliseconds = false, class
     return `${mStr}:${sStr}${onMilliseconds ? `:${msStr}` : ''}`;
   };
 
+  const getElapsedTimeRender = () => renderTime(getElapsedTime());
+  const getEasternTimeRender = () => renderTime(getEasternTime());
+
+  useEffect(() => {
+    if (callback) {
+      callback({
+        startTimer,
+        stopTimer,
+        resetTimer,
+        getEasternTime,
+        getElapsedTime,
+        getElapsedTimeRender,
+        getEasternTimeRender,
+      });
+    }
+  }, [elapsedTime]);
+
   return (
     <div className={`timer ${styles.container} ${className} ${onMilliseconds ? styles.on_ms : ''}`} style={style}>
-      {getTime()}
+      {getEasternTimeRender()}
     </div>
   );
 };

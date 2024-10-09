@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './RegisterForm.module.scss';
 import UserIcon from '../UserIcon/UserIcon';
 import Button from '../Button/Button';
+import OverlayModal from '../OverlayModal/OverlayModal';
 
 const InputField = ({ id, label, type, value, onChange }) => (
   <div className={styles.group}>
@@ -46,7 +47,7 @@ const RegisterForm = ({ onSubmit, onCancel, className, style }) => {
   };
 
   return (
-    <div className={styles.overlay}>
+    <OverlayModal>
       <form className={`${styles.form} ${className || ''}`} style={style || {}} onSubmit={handleSubmit}>
         <header className={styles.header}>
           <h2 className={styles.title}>Register new Player</h2>
@@ -76,7 +77,7 @@ const RegisterForm = ({ onSubmit, onCancel, className, style }) => {
           </Button>
         </footer>
       </form>
-    </div>
+    </OverlayModal>
   );
 };
 
