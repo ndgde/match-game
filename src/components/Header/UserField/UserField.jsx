@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import styles from './UserField.module.scss';
 import Button from '../../Button/Button';
 import RegisterForm from '../../RegisterForm/RegisterForm';
+import { useNavigate } from 'react-router-dom';
 
 const UserField = ({ user }) => {
   const [isRegisterFormVisible, setIsRegisterFormVisible] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('registerFormData');
+    const token = localStorage.getItem('authToken');
     if (token) {
       setIsAuthenticated(true);
     }
@@ -22,8 +24,9 @@ const UserField = ({ user }) => {
   }, [isAuthenticated]);
 
   const logOut = () => {
-    localStorage.removeItem('registerFormData');
+    localStorage.removeItem('authToken');
     setIsAuthenticated(false);
+    navigate('/about');
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styles from './Navigation.module.scss';
@@ -6,20 +6,25 @@ import Button from '../../Button/Button';
 
 const Navigation = ({ items }) => {
   const navigate = useNavigate();
-  const [redirectTo, setRedirectTo] = useState(null);
 
-  useEffect(() => {
-    if (redirectTo) {
-      navigate(redirectTo);
+  const handleNavigation = (path, authRequired) => {
+    if (authRequired) {
+      if (localStorage.getItem('authToken')) {
+        navigate(path);
+      } else {
+        navigate('/about');
+      }
+    } else {
+      navigate(path);
     }
-  }, [redirectTo, navigate]);
+  };
 
   return (
     <nav className={styles.nav}>
       <ul className={styles.list}>
-        {items.map(({ path, sign, text }, index) => (
+        {items.map(({ path, authRequired, sign, text }, index) => (
           <li key={index} className={styles.item}>
-            <Button className={styles.sign_btn} onClick={() => setRedirectTo(path)}>
+            <Button className={styles.sign_btn} onClick={() => handleNavigation(path, authRequired)}>
               <div className={styles.title_container}>
                 <span className={styles.title_sign}>{sign}</span>
               </div>

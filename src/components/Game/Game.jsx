@@ -69,8 +69,6 @@ const Game = () => {
   }, [isGameOver]);
 
   useEffect(() => {
-    console.log(numOfPairs);
-    console.log(timerI.getElapsedTime(), timerI.getEasternTime());
     if (numOfPairs >= cards.length && cards.length !== 0) {
       gameWon();
     }
@@ -79,7 +77,6 @@ const Game = () => {
   const startGame = () => setIsGameOver(false);
   const endGame = () => setIsGameOver(true);
   const gameWon = () => {
-    console.log('won');
     setShowWonWindow(true);
     endGame();
   };

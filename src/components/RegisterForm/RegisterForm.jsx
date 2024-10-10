@@ -26,14 +26,14 @@ const RegisterForm = ({ onSubmit, onCancel, className, style }) => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
 
   useEffect(() => {
-    const savedData = localStorage.getItem('registerFormData');
+    const savedData = localStorage.getItem('authToken');
     if (savedData) {
       setFormData(JSON.parse(savedData));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('registerFormData', JSON.stringify(formData));
+    localStorage.setItem('authToken', JSON.stringify(formData));
   }, [formData]);
 
   const handleChange = ({ target: { name, value } }) => {
@@ -42,7 +42,7 @@ const RegisterForm = ({ onSubmit, onCancel, className, style }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.removeItem('registerFormData');
+    localStorage.removeItem('authToken');
     onSubmit();
   };
 

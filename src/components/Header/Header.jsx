@@ -10,9 +10,9 @@ const Header = ({ user }) => (
     <Title />
     <Navigation
       items={[
-        { path: '/about', sign: '?', text: 'About' },
-        { path: '/best-scores', sign: '★', text: 'Best Scores' },
-        { path: '/game-settings', sign: '⚙️', text: 'Settings' },
+        { path: '/about', authRequired: false, sign: '?', text: 'About' },
+        { path: '/best-scores', authRequired: true, sign: '★', text: 'Best Scores' },
+        { path: '/game-settings', authRequired: true, sign: '⚙️', text: 'Settings' },
       ]}
     />
     <UserField user={user} />
