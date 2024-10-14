@@ -1,3 +1,7 @@
+.list {
+  padding-top: 1vw;
+}
+
 .container {
   width: 100%;
   height: 100%;
@@ -8,6 +12,7 @@
 
 .item {
   border: none;
+  margin: 0.7vw 2vw;
   padding: 10px;
 }
 
@@ -16,19 +21,19 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1em;
+  gap: 0.1vw;
 }
 
 .select {
   appearance: none;
   background-color: #fff;
   min-width: 200px;
-  height: 2em;
+  height: 4em;
   cursor: pointer;
   border: none;
   border-bottom: 1px solid #ccc;
   padding: 0 0.5em;
-  font-size: 16px;
+  font-size: 0.6vw;
 }
 
 .custom_select_wrapper {
@@ -36,9 +41,9 @@
   width: fit-content;
 }
 
-.custom_select-wrapper::after {
+.custom_select_wrapper::after {
   content: '▼';
-  font-size: 12px;
+  font-size: 0.5vw;
   color: #333;
   position: absolute;
   top: 50%;

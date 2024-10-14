@@ -8,8 +8,8 @@ import UserIcon from '../../components/UserIcon/UserIcon';
 
 const GameSettings = () => {
   const settings = [
-    { id: 1, name: 'Настройка 1' },
-    { id: 2, name: 'Настройка 2' },
+    { id: 1, name: 'Field size', options: ['3x3', '4x4', '5x5'] },
+    { id: 2, name: 'Difficulty', options: ['1', '2', '3'] },
   ];
 
   return (
@@ -19,6 +19,7 @@ const GameSettings = () => {
         <Main>
           <div className={styles.container}>
             <List
+              className={styles.list}
               items={settings}
               itemClassName={styles.item}
               renderItem={(setting) => (
@@ -26,9 +27,11 @@ const GameSettings = () => {
                   <label htmlFor="dropdown">{setting.name}</label>
                   <div className={styles.custom_select_wrapper}>
                     <select id="dropdown" className={styles.select}>
-                      <option value="option1">Option 1</option>
-                      <option value="option2">Option 2</option>
-                      <option value="option3">Option 3</option>
+                      {setting.options.map((option, index) => (
+                        <option key={index} value={option}>
+                          {option}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
