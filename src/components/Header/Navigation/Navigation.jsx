@@ -22,11 +22,11 @@ const Navigation = ({ items }) => {
   return (
     <nav className={styles.nav}>
       <ul className={styles.list}>
-        {items.map(({ path, authRequired, sign, text }, index) => (
+        {items.map(({ path, authRequired, img, text }, index) => (
           <li key={index} className={styles.item}>
             <Button className={styles.sign_btn} onClick={() => handleNavigation(path, authRequired)}>
               <div className={styles.title_container}>
-                <span className={styles.title_sign}>{sign}</span>
+                <img className={styles.title_sign} src={img} alt={`${text} img`} rel="preload" />
               </div>
             </Button>
             <p className={styles.text}>{text}</p>

@@ -10,9 +10,19 @@ const Header = ({ user }) => (
     <Title />
     <Navigation
       items={[
-        { path: '/about', authRequired: false, sign: '?', text: 'About' },
-        { path: '/best-scores', authRequired: true, sign: '★', text: 'Best Scores' },
-        { path: '/game-settings', authRequired: true, sign: '⚙️', text: 'Settings' },
+        { path: '/about', authRequired: false, img: `${process.env.PUBLIC_URL}/nav-about-icon.svg`, text: 'About' },
+        {
+          path: '/best-scores',
+          authRequired: true,
+          img: `${process.env.PUBLIC_URL}/nav-best-scores-icon.svg`,
+          text: 'Best Scores',
+        },
+        {
+          path: '/game-settings',
+          authRequired: true,
+          img: `${process.env.PUBLIC_URL}/nav-settings-icon.svg`,
+          text: 'Settings',
+        },
       ]}
     />
     <UserField user={user} />
