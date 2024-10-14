@@ -24,6 +24,7 @@ const Card = ({ id, index, state, isFlipped, onClick, className, ...props }) => 
             className={styles.card__front__img}
             src={`${process.env.PUBLIC_URL}/card-imgs/img-${index}.png`}
             alt="front"
+            rel="preload"
           />
           {state === CardState.CORRECT && (
             <div className={`${styles.card__front__overlay} ${styles.green}`}>
@@ -45,6 +46,7 @@ const Card = ({ id, index, state, isFlipped, onClick, className, ...props }) => 
             className={styles.card__back__img}
             src={`${process.env.PUBLIC_URL}/card-imgs/card-back.jpg`}
             alt="back"
+            rel="preload"
           />
         </div>
       </div>
