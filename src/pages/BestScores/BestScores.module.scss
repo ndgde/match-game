@@ -1,5 +1,5 @@
 .title {
-  margin-top: 3vw;
+  margin-top: 2vw;
   margin-left: 3.5vw;
   font-size: 0.95vw;
 }
@@ -8,5 +8,19 @@
   padding: 6px 11px;
 }
 
-.main {
+.your_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 3.5vw;
+  margin-top: 3vw;
+}
+
+.your_title {
+  font-size: 1.2vw;
+}
+
+.your_score {
+  margin-top: 0.6vw;
+  color: hsl(207, 90%, 54%);
 }

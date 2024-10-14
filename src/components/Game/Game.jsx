@@ -28,6 +28,9 @@ const Game = () => {
   const [numOfSeries, setNumOfSeries] = useState(0);
   const [prevGuessed, setPrevGuessed] = useState(false);
   const [showWonWindow, setShowWonWindow] = useState(false);
+  const [fieldWidth, setFieldWidth] = useState(4);
+  const [fieldHeight, setFieldHeight] = useState(3);
+  const [difficulty, setDifficulty] = useState(1);
 
   const genCardIndices = (numOfCards) =>
     Array.from({ length: Math.floor(numOfCards / 2) }, (_, i) => [i, i])
@@ -44,8 +47,31 @@ const Game = () => {
     }));
 
   useEffect(() => {
+    const savedSize = localStorage.getItem('fieldSize');
+    if (savedSize) {
+      switch (JSON.parse(savedSize).fieldSize) {
+        case '4x3':
+          setFieldWidth(4);
+          setFieldHeight(3);
+          break;
+        case '4x4':
+          setFieldWidth(4);
+          setFieldHeight(4);
+          break;
+        case '4x5':
+          setFieldWidth(4);
+          setFieldHeight(5);
+          break;
+      }
+    }
+
+    const savedDifficulty = localStorage.getItem('difficulty');
+    if (savedSize) {
+      setDifficulty(Number.parseInt(JSON.parse(savedDifficulty).difficulty));
+    }
+
     if (!isGameOver) {
-      setCards(genCards(12));
+      setCards(genCards(fieldWidth * fieldHeight));
 
       setCards((prev) => prev.map((card) => ({ ...card, isFlipped: true, isBlocked: true })));
       setTimeout(() => {
@@ -79,12 +105,24 @@ const Game = () => {
   const gameWon = () => {
     setShowWonWindow(true);
     endGame();
+    const savedScore = localStorage.getItem('bestScore');
+    if (savedScore) {
+      if (JSON.parse(savedScore).bestScore < score) {
+        localStorage.setItem('bestScore', JSON.stringify({ bestScore: score }));
+      }
+    } else {
+      localStorage.setItem('bestScore', JSON.stringify({ bestScore: score }));
+    }
   };
   // const getCard = (id) => cards[id];
   // const getCardIndex = (id) => getCard(id).index;
 
   const calcScore = () => {
-    const newScore = numOfPairs * 100 + Math.floor(timerI.getEasternTime() / 1000) - numOfErrors * 5 + numOfSeries * 50;
+    const newScore =
+      (numOfPairs * 100) / difficulty +
+      Math.floor(timerI.getEasternTime() / 1000) -
+      numOfErrors * 5 * difficulty +
+      numOfSeries * 50;
     setScore(newScore);
   };
 
@@ -165,8 +203,8 @@ const Game = () => {
       )}
       <p>{score}</p>
       <Grid
-        width={4}
-        height={3}
+        width={fieldWidth}
+        height={fieldHeight}
         cards={cards.map(({ id, index, isFlipped, state }) => (
           <Card key={id} id={id} index={index} isFlipped={isFlipped} state={state} onClick={() => clickHandler(id)} />
         ))}

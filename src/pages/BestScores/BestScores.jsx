@@ -13,12 +13,25 @@ const BestScores = () => {
     { id: 2, name: 'Игрок 2', score: 1500, email: 'some-email2@mail.com' },
   ].sort((a, b) => b.score - a.score);
 
+  const getBestScore = () => {
+    const savedData = localStorage.getItem('bestScore');
+    if (savedData) {
+      return JSON.parse(savedData).bestScore;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <Layout>
       <>
         <Header user={<UserIcon />} />
         <Main className={styles.main}>
           <>
+            <div className={styles.your_container}>
+              <h2 className={styles.your_title}>Your best score</h2>
+              <p className={styles.your_score}>{getBestScore()}</p>
+            </div>
             <h1 className={styles.title}>Best players</h1>
             <List
               items={players}
