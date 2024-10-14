@@ -17,7 +17,7 @@ const BestScores = () => {
     <Layout>
       <>
         <Header user={<UserIcon />} />
-        <Main>
+        <Main className={styles.main}>
           <>
             <h1 className={styles.title}>Best players</h1>
             <List
@@ -30,6 +30,7 @@ const BestScores = () => {
                   avatar={`${process.env.PUBLIC_URL}/unauthenticated-user.png`}
                 />
               )}
+              itemClassName={styles.item}
             />
           </>
         </Main>

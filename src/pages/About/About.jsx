@@ -12,6 +12,7 @@ const About = () => {
       <>
         <Header user={<UserIcon />} />
         <Main>
+          <h1 className={styles.title}>How to play?</h1>
           <List
             items={[
               {
@@ -34,7 +35,9 @@ const About = () => {
               <div className={styles.item_container}>
                 <div className={styles.item_left_section}>
                   <h3 className={styles.item_title}>
-                    <span className={styles.item_index}>{index + 1}</span>
+                    <div className={styles.index_container}>
+                      <span className={styles.item_index}>{index + 1}</span>
+                    </div>
                     {item.title}
                   </h3>
                   <p className={styles.item_content}>{item.content}</p>

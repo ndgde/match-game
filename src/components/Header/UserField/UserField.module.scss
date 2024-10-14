@@ -1,5 +1,6 @@
 .container {
-  width: 30%;
+  padding: 1vw;
+  width: 29%;
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -7,18 +8,17 @@
 }
 
 .user_btn {
-  width: 3.7em;
-  height: 3.7em;
+  width: 2vw;
+  height: 2vw;
   border-radius: 50%;
   border: white;
 }
 
 .container .sign_in_btn,
 .container .start_game_btn {
-  width: 45%;
-  height: 45%;
-  padding: 5px;
-  margin-right: 1em;
+  width: 34%;
+  padding: 8px;
+  margin-right: 1.5vw;
   border: 0;
   color: hsl(207, 90%, 54%);
   background-color: white;

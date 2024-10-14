@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './List.module.scss';
 
-const List = ({ items, renderItem, className = '', itemClassName, style = {} }) => {
+const List = ({ items, renderItem, className = '', itemClassName = '', style = {} }) => {
   return (
     <ul className={`${styles.list} ${className}`} style={style}>
       {items.map((item, index) => (

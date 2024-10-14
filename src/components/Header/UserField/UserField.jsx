@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styles from './UserField.module.scss';
 import Button from '../../Button/Button';
 import RegisterForm from '../../RegisterForm/RegisterForm';
 import { useNavigate } from 'react-router-dom';
+import UserIcon from '../../UserIcon/UserIcon';
 
-const UserField = ({ user }) => {
+const UserField = () => {
   const [isRegisterFormVisible, setIsRegisterFormVisible] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
@@ -41,17 +41,13 @@ const UserField = ({ user }) => {
         </Button>
       )}
       <Button onClick={() => (isAuthenticated ? '' : setIsRegisterFormVisible(true))} className={styles.user_btn}>
-        {user}
+        <UserIcon className={styles.icon} />
       </Button>
       {isRegisterFormVisible && (
         <RegisterForm onSubmit={() => setIsAuthenticated(true)} onCancel={() => setIsRegisterFormVisible(false)} />
       )}
     </div>
   );
-};
-
-UserField.propTypes = {
-  user: PropTypes.object,
 };
 
 export default UserField;
