@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styles from './RegisterForm.module.scss';
 import UserIcon from '../UserIcon/UserIcon';
@@ -24,6 +24,8 @@ InputField.propTypes = {
 
 const RegisterForm = ({ onSubmit, onCancel, className, style }) => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const savedData = localStorage.getItem('authToken');
@@ -46,6 +48,22 @@ const RegisterForm = ({ onSubmit, onCancel, className, style }) => {
     onSubmit();
   };
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+        localStorage.setItem('userImg', reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
   return (
     <OverlayModal>
       <form className={`${styles.form} ${className || ''}`} style={style || {}} onSubmit={handleSubmit}>
@@ -65,7 +83,14 @@ const RegisterForm = ({ onSubmit, onCancel, className, style }) => {
             />
           </div>
           <div className={styles.user_field}>
-            <UserIcon className={styles.user_icon} onClick={() => {}} />
+            <UserIcon className={styles.user_icon} onClick={handleButtonClick} avatar={image} isAuthorized={true} />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageUpload}
+              className={styles.hidden_input}
+            />
           </div>
         </main>
         <footer className={styles.footer}>

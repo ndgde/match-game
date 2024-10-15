@@ -7,7 +7,7 @@ const UserIcon = ({ avatar, onClick, isAuthorized, className = '', style = {} })
     <div className={`${styles.icon} ${className}`} style={style} onClick={onClick}>
       <img
         className={styles.avatar}
-        src={isAuthorized ? avatar : `${process.env.PUBLIC_URL}/unauthenticated-user.png`}
+        src={isAuthorized && avatar !== null ? avatar : `${process.env.PUBLIC_URL}/unauthenticated-user.png`}
         alt="User Avatar"
       />
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './UserField.module.scss';
 import Button from '../../Button/Button';
 import RegisterForm from '../../RegisterForm/RegisterForm';
@@ -9,6 +9,8 @@ const UserField = () => {
   const [isRegisterFormVisible, setIsRegisterFormVisible] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -29,6 +31,22 @@ const UserField = () => {
     navigate('/about');
   };
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+        localStorage.setItem('userImg', reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
   return (
     <div className={styles.container}>
       {isAuthenticated ? (
@@ -40,8 +58,17 @@ const UserField = () => {
           sign in
         </Button>
       )}
-      <Button onClick={() => (isAuthenticated ? '' : setIsRegisterFormVisible(true))} className={styles.user_btn}>
-        <UserIcon className={styles.icon} />
+      <Button
+        onClick={isAuthenticated ? handleButtonClick : () => setIsRegisterFormVisible(true)}
+        className={styles.user_btn}>
+        <UserIcon className={styles.icon} avatar={image} isAuthorized={isAuthenticated} />
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleImageUpload}
+          className={styles.hidden_input}
+        />
       </Button>
       {isRegisterFormVisible && (
         <RegisterForm onSubmit={() => setIsAuthenticated(true)} onCancel={() => setIsRegisterFormVisible(false)} />
