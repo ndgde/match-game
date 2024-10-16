@@ -12,7 +12,7 @@ export { CardState };
 interface CardProps {
   id: number;
   index: number;
-  state: 'standard' | 'correct' | 'incorrect';
+  state: string;
   isFlipped: boolean;
   onClick: (id: number) => void;
   className?: string;

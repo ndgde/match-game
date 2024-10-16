@@ -19,6 +19,8 @@ interface TimerControls {
   getEasternTimeRender: () => string;
 }
 
+export { TimerControls };
+
 const Timer: React.FC<TimerProps> = ({
   timeAmount,
   callback,

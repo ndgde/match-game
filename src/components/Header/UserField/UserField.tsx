@@ -9,7 +9,7 @@ const UserField: React.FC = () => {
   const [isRegisterFormVisible, setIsRegisterFormVisible] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [image, setImage] = useState<string>('');
+  const [image, setImage] = useState<string | null>('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {

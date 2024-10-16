@@ -1,43 +1,50 @@
-/* eslint-disable react/jsx-key */
 import React, { useState, useEffect } from 'react';
 import styles from './Game.module.scss';
 import Grid from '../Grid/Grid';
 import Card, { CardState } from '../Card/Card';
-import Timer from '../Timer/Timer';
+import Timer, { TimerControls } from '../Timer/Timer';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
 import WonWindow from './WonWindow/WonWindow';
 
-const Game = () => {
-  const [isGameOver, setIsGameOver] = useState(true);
-  const [cards, setCards] = useState([]);
-  const [prevId, setPrevId] = useState(null);
-  const [timerI, setTimerI] = useState({
+const Game: React.FC = () => {
+  const [isGameOver, setIsGameOver] = useState<boolean>(true);
+  const [cards, setCards] = useState<CardType[]>([]);
+  const [prevId, setPrevId] = useState<number | null>(null);
+  const [timerI, setTimerI] = useState<TimerControls>({
     startTimer: () => {},
     stopTimer: () => {},
     resetTimer: () => {},
-    getElapsedTime: () => {},
-    getEasternTime: () => {},
-    getElapsedTimeRender: () => {},
-    getEasternTimeRender: () => {},
+    getElapsedTime: () => 0,
+    getEasternTime: () => 0,
+    getElapsedTimeRender: () => '',
+    getEasternTimeRender: () => '',
   });
-  const [namespace, setNamespace] = useState(null);
-  const [score, setScore] = useState(0);
-  const [numOfPairs, setNumOfPairs] = useState(0);
-  const [numOfErrors, setNumOfErrors] = useState(0);
-  const [numOfSeries, setNumOfSeries] = useState(0);
-  const [prevGuessed, setPrevGuessed] = useState(false);
-  const [showWonWindow, setShowWonWindow] = useState(false);
-  const [fieldWidth, setFieldWidth] = useState(4);
-  const [fieldHeight, setFieldHeight] = useState(3);
-  const [difficulty, setDifficulty] = useState(1);
+  const [namespace, setNamespace] = useState<string>('');
+  const [score, setScore] = useState<number>(0);
+  const [numOfPairs, setNumOfPairs] = useState<number>(0);
+  const [numOfErrors, setNumOfErrors] = useState<number>(0);
+  const [numOfSeries, setNumOfSeries] = useState<number>(0);
+  const [prevGuessed, setPrevGuessed] = useState<boolean>(false);
+  const [showWonWindow, setShowWonWindow] = useState<boolean>(false);
+  const [fieldWidth, setFieldWidth] = useState<number>(4);
+  const [fieldHeight, setFieldHeight] = useState<number>(3);
+  const [difficulty, setDifficulty] = useState<number>(1);
 
-  const genCardIndices = (numOfCards) =>
+  interface CardType {
+    id: number;
+    index: number;
+    isFlipped: boolean;
+    isBlocked: boolean;
+    state: string;
+  }
+
+  const genCardIndices = (numOfCards: number) =>
     Array.from({ length: Math.floor(numOfCards / 2) }, (_, i) => [i, i])
       .flat()
       .sort(() => Math.random() - 0.5);
 
-  const genCards = (numOfCards) =>
+  const genCards = (numOfCards: number): CardType[] =>
     genCardIndices(numOfCards).map((cardIndex, index) => ({
       id: index,
       index: cardIndex,
@@ -66,7 +73,7 @@ const Game = () => {
     }
 
     const savedDifficulty = localStorage.getItem('difficulty');
-    if (savedSize) {
+    if (savedDifficulty) {
       setDifficulty(Number.parseInt(JSON.parse(savedDifficulty).difficulty));
     }
 
@@ -114,19 +121,14 @@ const Game = () => {
       localStorage.setItem('bestScore', JSON.stringify({ bestScore: score }));
     }
   };
-  // const getCard = (id) => cards[id];
-  // const getCardIndex = (id) => getCard(id).index;
 
   const calcScore = () => {
     const newScore =
-      (numOfPairs * 100) / difficulty +
-      Math.floor(timerI.getEasternTime() / 1000) -
-      numOfErrors * 5 * difficulty +
-      numOfSeries * 50;
+      numOfPairs * 100 + Math.floor(timerI.getEasternTime() / 1000) - numOfErrors * 5 * difficulty + numOfSeries * 50;
     setScore(newScore);
   };
 
-  const clickHandler = (id) => {
+  const clickHandler = (id: number) => {
     const clickedCard = cards[id];
 
     if (clickedCard.isBlocked || clickedCard.isFlipped) return;
@@ -154,7 +156,6 @@ const Game = () => {
           updatedCards[id].isBlocked = false;
           updatedCards[prevId].isBlocked = false;
         } else {
-          // setCards((prev) => prev.map((card) => ({ ...card, isBlocked: true }))); /* all card block */
           setTimeout(() => {
             setCards((newCards) =>
               newCards.map((card, idx) =>
@@ -163,8 +164,6 @@ const Game = () => {
                   : card
               )
             );
-
-            // setCards((prev) => prev.map((card) => ({ ...card, isBlocked: false }))); /* all card unblock */
           }, 500);
 
           setNumOfErrors((prev) => prev + 1);
@@ -186,12 +185,7 @@ const Game = () => {
 
   return (
     <div className={`game ${styles.container}`}>
-      <Timer
-        callback={(timerI) => setTimerI(timerI)}
-        timeAmount={5 * 60 * 1000}
-        endTrigger={endGame}
-        // onMilliseconds={true}
-      />
+      <Timer callback={(timerI) => setTimerI(timerI)} timeAmount={5 * 60 * 1000} endTrigger={endGame} />
       {isGameOver ? (
         <Button className={styles.game_btn} onClick={startGame}>
           New Game
