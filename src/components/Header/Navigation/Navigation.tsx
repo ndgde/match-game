@@ -1,13 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import styles from './Navigation.module.scss';
 import Button from '../../Button/Button';
 
-const Navigation = ({ items }) => {
+interface NavigationItem {
+  path: string;
+  authRequired: boolean;
+  img: string;
+  text: string;
+}
+
+interface NavigationProps {
+  items: NavigationItem[];
+}
+
+const Navigation: React.FC<NavigationProps> = ({ items }) => {
   const navigate = useNavigate();
 
-  const handleNavigation = (path, authRequired) => {
+  const handleNavigation = (path: string, authRequired: boolean) => {
     if (authRequired) {
       if (localStorage.getItem('authToken')) {
         navigate(path);
@@ -35,10 +45,6 @@ const Navigation = ({ items }) => {
       </ul>
     </nav>
   );
-};
-
-Navigation.propTypes = {
-  items: PropTypes.array,
 };
 
 export default Navigation;
