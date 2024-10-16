@@ -1,14 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styles from './Timer.module.scss';
 
-const Timer = ({ timeAmount, callback, endTrigger, onMilliseconds = false, className = '', style = {} }) => {
-  const [startTime, setStartTime] = useState(null);
-  const [isRunning, setIsRunning] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0);
+interface TimerProps extends React.HTMLAttributes<HTMLDivElement> {
+  timeAmount: number;
+  callback: (controls: TimerControls) => void;
+  endTrigger: () => void;
+  onMilliseconds?: boolean;
+  style?: React.CSSProperties;
+}
+
+interface TimerControls {
+  startTimer: () => void;
+  stopTimer: () => void;
+  resetTimer: () => void;
+  getEasternTime: () => number;
+  getElapsedTime: () => number;
+  getElapsedTimeRender: () => string;
+  getEasternTimeRender: () => string;
+}
+
+const Timer: React.FC<TimerProps> = ({
+  timeAmount,
+  callback,
+  endTrigger,
+  onMilliseconds = false,
+  className = '',
+  style,
+}) => {
+  const [startTime, setStartTime] = useState<number>(0);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
 
   useEffect(() => {
-    let timerId;
+    let timerId: NodeJS.Timeout;
 
     if (isRunning) {
       timerId = setInterval(
@@ -43,14 +67,14 @@ const Timer = ({ timeAmount, callback, endTrigger, onMilliseconds = false, class
   const getElapsedTime = () => elapsedTime;
   const getEasternTime = () => timeAmount - elapsedTime;
 
-  const renderTime = (time) => {
-    let minutes = Math.floor((time / 1000 / 60) % 60);
-    let seconds = Math.floor((time / 1000) % 60);
-    let milliseconds = time % 1000;
+  const renderTime = (time: number) => {
+    const minutes = Math.floor((time / 1000 / 60) % 60);
+    const seconds = Math.floor((time / 1000) % 60);
+    const milliseconds = time % 1000;
 
-    let mStr = minutes.toString().padStart(2, '0');
-    let sStr = seconds.toString().padStart(2, '0');
-    let msStr = milliseconds.toString().padStart(3, '0');
+    const mStr = minutes.toString().padStart(2, '0');
+    const sStr = seconds.toString().padStart(2, '0');
+    const msStr = milliseconds.toString().padStart(3, '0');
 
     return `${mStr}:${sStr}${onMilliseconds ? `:${msStr}` : ''}`;
   };
@@ -77,15 +101,6 @@ const Timer = ({ timeAmount, callback, endTrigger, onMilliseconds = false, class
       {getEasternTimeRender()}
     </div>
   );
-};
-
-Timer.propTypes = {
-  timeAmount: PropTypes.number.isRequired,
-  callback: PropTypes.func.isRequired,
-  endTrigger: PropTypes.func.isRequired,
-  onMilliseconds: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.object,
 };
 
 export default Timer;
