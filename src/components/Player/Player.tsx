@@ -1,8 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './Player.module.scss';
 
-const Player = ({ name, score, email, avatar, className = '', style = {} }) => {
+interface PlayerProps extends React.HTMLAttributes<HTMLDivElement> {
+  name: string;
+  score: number;
+  email: string;
+  avatar: string;
+  style?: React.CSSProperties;
+}
+
+const Player: React.FC<PlayerProps> = ({ name, score, email, avatar, className = '', style = {} }) => {
   return (
     <div className={`player ${styles.container} ${className}`} style={style}>
       <img className={styles.avatar} src={avatar} alt={`${name}'s avatar`} />
@@ -19,15 +26,6 @@ const Player = ({ name, score, email, avatar, className = '', style = {} }) => {
       </div>
     </div>
   );
-};
-
-Player.propTypes = {
-  name: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
-  email: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  style: PropTypes.object,
 };
 
 export default Player;
