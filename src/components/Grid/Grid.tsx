@@ -1,10 +1,16 @@
 import React from 'react';
 import styles from './Grid.module.scss';
-import PropTypes from 'prop-types';
-import Card from '../Card/Card';
+import Card, { CardProps } from '../Card/Card';
 import { v5 as uuidv5 } from 'uuid';
 
-const Grid = ({ width, height, cards, namespace }) => {
+interface GridProps {
+  width?: number;
+  height?: number;
+  cards: Array<{ props: CardProps }>;
+  namespace: string;
+}
+
+const Grid: React.FC<GridProps> = ({ width, height, cards, namespace }) => {
   const gridStyle = {
     ...(width ? { gridTemplateColumns: `repeat(${width}, 1fr)` } : {}),
     ...(height ? { gridTemplateRows: `repeat(${height}, 1fr)` } : {}),
@@ -20,10 +26,3 @@ const Grid = ({ width, height, cards, namespace }) => {
 };
 
 export default Grid;
-
-Grid.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
-  cards: PropTypes.array,
-  namespace: PropTypes.string,
-};

@@ -18,6 +18,8 @@ interface CardProps {
   className?: string;
 }
 
+export { CardProps };
+
 const Card: React.FC<CardProps> = ({ id, index, state, isFlipped, onClick, className, ...props }) => {
   const handleClick = () => {
     onClick(id);
