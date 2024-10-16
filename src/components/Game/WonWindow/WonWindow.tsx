@@ -1,11 +1,15 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './WonWindow.module.scss';
 import OverlayModal from '../../OverlayModal/OverlayModal';
 import Button from '../../Button/Button';
 
-const WonWindow = ({ elapsedTime, score, onConfirm }) => (
+interface WonWindowProps {
+  elapsedTime: string;
+  score: number;
+  onConfirm: () => void;
+}
+
+const WonWindow: React.FC<WonWindowProps> = ({ elapsedTime, score, onConfirm }) => (
   <OverlayModal>
     <div className={styles.container}>
       <h2 className={styles.title}>
@@ -19,11 +23,5 @@ const WonWindow = ({ elapsedTime, score, onConfirm }) => (
     </div>
   </OverlayModal>
 );
-
-WonWindow.propTypes = {
-  elapsedTime: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-};
 
 export default WonWindow;
