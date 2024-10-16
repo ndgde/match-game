@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import styles from './Dropdown.module.scss';
 
-const Dropdown = ({ label, options, onSelect, defaultValue = '', className = '' }) => {
-  const [value, setValue] = useState(defaultValue);
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+interface DropdownProps {
+  label: string;
+  options: string[];
+  onSelect: (value: string) => void;
+  defaultValue?: string;
+  className?: string;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ label, options, onSelect, defaultValue = '', className = '' }) => {
+  const [value, setValue] = useState<string>(defaultValue);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!defaultValue && options.length > 0) {
@@ -17,7 +24,14 @@ const Dropdown = ({ label, options, onSelect, defaultValue = '', className = '' 
     onSelect(value);
   }, [value, onSelect]);
 
-  const handleChange = (option) => {
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
+  const handleChange = (option: string) => {
     setValue(option);
     setIsOpen(false);
   };
@@ -26,18 +40,11 @@ const Dropdown = ({ label, options, onSelect, defaultValue = '', className = '' 
     setIsOpen(!isOpen);
   };
 
-  const handleOutsideClick = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
       setIsOpen(false);
     }
   };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
 
   return (
     <div className={`${styles.dropdown_wrapper} ${className}`} ref={dropdownRef}>
@@ -59,14 +66,6 @@ const Dropdown = ({ label, options, onSelect, defaultValue = '', className = '' 
       </div>
     </div>
   );
-};
-
-Dropdown.propTypes = {
-  label: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onSelect: PropTypes.func.isRequired,
-  defaultValue: PropTypes.string,
-  className: PropTypes.string,
 };
 
 export default Dropdown;
