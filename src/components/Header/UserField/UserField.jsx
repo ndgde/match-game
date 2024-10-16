@@ -60,8 +60,7 @@ const UserField = () => {
       )}
       <Button
         onClick={isAuthenticated ? handleButtonClick : () => setIsRegisterFormVisible(true)}
-        className={styles.user_btn}
-      >
+        className={styles.user_btn}>
         <UserIcon className={styles.icon} avatar={image} isAuthorized={isAuthenticated} />
         <input
           type="file"
