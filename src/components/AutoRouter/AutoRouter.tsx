@@ -1,9 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 
-const AutoRouter = ({ routes, defaultRedirect, notFoundElement }) => {
+interface RouteConfig {
+  path: string;
+  element: React.ReactNode;
+  authRequired?: boolean;
+}
+
+interface AutoRouterProps {
+  routes: RouteConfig[];
+  defaultRedirect: string;
+  notFoundElement?: React.ReactNode;
+}
+
+const AutoRouter: React.FC<AutoRouterProps> = ({ routes, defaultRedirect, notFoundElement }) => {
   const isAuth = useAuth();
 
   return (
@@ -19,12 +30,6 @@ const AutoRouter = ({ routes, defaultRedirect, notFoundElement }) => {
       <Route path="*" element={notFoundElement || <Navigate to={defaultRedirect} />} />
     </Routes>
   );
-};
-
-AutoRouter.propTypes = {
-  routes: PropTypes.array.isRequired,
-  defaultRedirect: PropTypes.string.isRequired,
-  notFoundElement: PropTypes.element.isRequired,
 };
 
 export default AutoRouter;
