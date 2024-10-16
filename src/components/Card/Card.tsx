@@ -1,7 +1,5 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import styles from './Card.module.scss';
-import PropTypes from 'prop-types';
 
 const CardState = Object.freeze({
   STANDARD: 'standard',
@@ -11,13 +9,25 @@ const CardState = Object.freeze({
 
 export { CardState };
 
-const Card = ({ id, index, state, isFlipped, onClick, className, ...props }) => {
+interface CardProps {
+  id: number;
+  index: number;
+  state: 'standard' | 'correct' | 'incorrect';
+  isFlipped: boolean;
+  onClick: (id: number) => void;
+  className?: string;
+}
+
+const Card: React.FC<CardProps> = ({ id, index, state, isFlipped, onClick, className, ...props }) => {
+  const handleClick = () => {
+    onClick(id);
+  };
+
   return (
     <div
       className={`${styles.container} ${isFlipped ? styles.flipped : ''} ${className}`}
-      onClick={() => onClick(id)}
-      {...props}
-    >
+      onClick={handleClick}
+      {...props}>
       <div className={styles.card}>
         <div className={styles.card__front}>
           <img
@@ -55,13 +65,3 @@ const Card = ({ id, index, state, isFlipped, onClick, className, ...props }) => 
 };
 
 export default Card;
-
-Card.propTypes = {
-  id: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
-  state: PropTypes.string.isRequired,
-  isFlipped: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  props: PropTypes.object,
-};
