@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './Header.module.scss';
 import Title from './Title/Title';
 import Navigation from './Navigation/Navigation';
 import UserField from './UserField/UserField';
 
-const Header = ({ user }) => (
+const Header: React.FC = () => (
   <header className={`header ${styles.header}`}>
     <Title />
     <Navigation
@@ -25,12 +24,8 @@ const Header = ({ user }) => (
         },
       ]}
     />
-    <UserField user={user} />
+    <UserField />
   </header>
 );
 
 export default Header;
-
-Header.propTypes = {
-  user: PropTypes.element.isRequired,
-};
