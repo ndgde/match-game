@@ -5,12 +5,12 @@ import RegisterForm from '../../RegisterForm/RegisterForm';
 import { useNavigate } from 'react-router-dom';
 import UserIcon from '../../UserIcon/UserIcon';
 
-const UserField = () => {
-  const [isRegisterFormVisible, setIsRegisterFormVisible] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+const UserField: React.FC = () => {
+  const [isRegisterFormVisible, setIsRegisterFormVisible] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [image, setImage] = useState(null);
-  const fileInputRef = useRef(null);
+  const [image, setImage] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -31,20 +31,20 @@ const UserField = () => {
     navigate('/about');
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
-        localStorage.setItem('userImg', reader.result);
+        setImage(reader.result as string);
+        localStorage.setItem('userImg', reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleButtonClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   return (
