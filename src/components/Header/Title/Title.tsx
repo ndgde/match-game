@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Title.module.scss';
 import Button from '../../Button/Button';
 
-const Title = () => {
+const Title: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleNavigation = (path, authRequired) => {
+  const handleNavigation = (path: string, authRequired: boolean) => {
     if (authRequired) {
       if (localStorage.getItem('authToken')) {
         navigate(path);
